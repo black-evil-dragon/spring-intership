@@ -1,4 +1,4 @@
-package com.golgan.toduo.modules.echo.controller;
+package com.golgan.toduo.modules.echo.controllers;
 
 import com.golgan.toduo.core.services.LoggerService;
 import com.golgan.toduo.core.utils.IDGenerator;
