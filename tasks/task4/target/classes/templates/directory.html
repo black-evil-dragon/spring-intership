@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" lang="ru">
+
+<body>
+
+    <div>
+        <h1>Текущее расположение: <span th:text="${currentPath}"></span></h1>
+
+
+        <!-- Таблица файлов и папок -->
+        <table th:if="${errorMessage == null}">
+            <thead>
+                <tr>
+                    <th>Наименование</th>
+                    <th>Размер</th>
+                    <th>Последнее изменение</th>
+                </tr>
+            </thead>
+            <tbody>
+                <td th:if="${parentPath != null}">
+                    [ ] <a th:href="@{/(path=${parentPath})}">../</a>
+                </td>
+
+                <tr th:each="file : ${files}">
+                    <td>
+                        <span th:if="${file.isDirectory}">
+                            [ ] <a th:href="@{/(path=${file.absolutePath})}" th:text="${file.name}"></a>
+                        </span>
+                        <span th:if="${!file.isDirectory}">
+                            * <span th:text="${file.name}"></span>
+                        </span>
+                    </td>
+                    <td th:text="${file.size}"></td>
+                    <td th:text="${file.lastModified != null ? file.lastModified : '—'}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</html>
