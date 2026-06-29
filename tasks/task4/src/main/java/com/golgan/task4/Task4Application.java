@@ -1,11 +1,11 @@
-package com.golgan.task1;
+package com.golgan.task4;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TaskApplication {
+public class Task4Application {
     public static void main(String[] args) {
-        SpringApplication.run(TaskApplication.class, args);
+        SpringApplication.run(Task4Application.class, args);
     }
 }
