@@ -1,9 +1,8 @@
 package com.golgan.task5.modules.tasks.models;
 
 import com.golgan.task5.core.entities.AuditableEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.golgan.task5.modules.users.models.UserEntity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,5 +13,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TaskEntity extends AuditableEntity {
 
+    @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
+    private String author;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
 }
