@@ -1,7 +1,7 @@
 package com.golgan.task5.core.controllers;
 
 import com.golgan.task5.core.services.CRUDService;
-import org.springframework.data.web.PageableDefault;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +14,14 @@ public abstract class CRUDController<E, ID> {
         this.service = service;
     }
 
+    // * ======================== CREATE ========================
+    @PostMapping
+    public E create(E createDto) {
+        return service.save(createDto);
+    }
 
+
+    // * ======================== READ ========================
     @GetMapping
     public List<E> list() {
         return service.findAll();
@@ -27,18 +34,15 @@ public abstract class CRUDController<E, ID> {
     }
 
 
-    @PostMapping
-    public E create(E createDto) {
-        return service.save(createDto);
-    }
-
-
+    // * ======================== UPDATE ========================
     @PatchMapping("/{id}")
-    public E update(@PathVariable ID id, E updateDto) {
+    public E update(E updateDto) {
         return service.save(updateDto);
     }
 
 
+
+    // * ======================== DELETE ========================
     @DeleteMapping("/{id}")
     public void delete(@PathVariable ID id) {
         service.delete(id);
