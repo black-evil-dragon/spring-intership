@@ -1,6 +1,6 @@
 package com.golgan.task5.modules.users.controllers;
 
-import com.golgan.task5.core.controllers.TemplateCreateController;
+import com.golgan.task5.core.controllers.templates.TemplateCreateController;
 import com.golgan.task5.core.services.PasswordService;
 import com.golgan.task5.modules.users.dto.UserCreateData;
 import com.golgan.task5.modules.users.models.UserEntity;

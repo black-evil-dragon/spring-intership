@@ -26,9 +26,7 @@
 
         <br>
 
-        <form th:action="@{/users/{id}/delete(id=*{id})}" method="post">
-            <button type="submit">Удалить пользователя</button>
-        </form>
+        <a th:href="@{/users/delete/{id}(id=*{id})}">Удалить пользователя</a>
     </div>
 </body>
 

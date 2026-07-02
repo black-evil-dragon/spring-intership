@@ -1,6 +1,6 @@
 package com.golgan.task5.modules.users.controllers;
 
-import com.golgan.task5.core.controllers.TemplateListController;
+import com.golgan.task5.core.controllers.templates.TemplateListController;
 import com.golgan.task5.modules.users.models.UserEntity;
 import com.golgan.task5.modules.users.services.UserService;
 import org.springframework.stereotype.Controller;

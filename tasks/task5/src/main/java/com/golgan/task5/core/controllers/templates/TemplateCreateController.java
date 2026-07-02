@@ -1,13 +1,11 @@
-package com.golgan.task5.core.controllers;
+package com.golgan.task5.core.controllers.templates;
 
 import com.golgan.task5.core.services.CRUDService;
-import com.golgan.task5.modules.users.dto.UserCreateData;
 import jakarta.validation.Valid;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 /// Чуть посложнее, так как нам нужно еще валидировать данные и сделать так,
@@ -46,7 +44,7 @@ public abstract class TemplateCreateController<E, CR, ID> extends TemplateContro
     @PostMapping("/new")
     public String create(@Valid @ModelAttribute("form") CR form, BindingResult bindingResult) {
         validate(form, bindingResult);
-        
+
         if (bindingResult.hasErrors()) {
             // Полезная оказывается штука, автоматически
             // собирает тексты ошибок
