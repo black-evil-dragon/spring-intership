@@ -14,8 +14,10 @@
     <a href="/users/new">Добавить пользователя</a>
     <br /><br />
 
+    <div th:replace="~{components/search :: search}"></div>
+
     <div th:if="${#lists.isEmpty(items)}">
-        <p>Пользователи пока не добавлены.</p>
+        <p>Не найдено</p>
     </div>
 
 

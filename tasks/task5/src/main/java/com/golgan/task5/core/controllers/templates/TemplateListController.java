@@ -3,6 +3,7 @@ package com.golgan.task5.core.controllers.templates;
 import com.golgan.task5.core.services.CRUDService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 import java.util.List;
@@ -22,10 +23,25 @@ public abstract class TemplateListController<E, ID> extends TemplateController<E
         return service.findAll();
     }
 
+    /// # Метод поиска списка сущностей по критерию
+    ///
+    /// @param query Строка поиска из URL
+    /// @return Отфильтрованные сущности
+    ///
+    protected List<E> getFilteredEntities(String query) {
+        return List.of();
+    }
+
 
     @GetMapping
-    public String getAll(Model model) {
-        List<E> entities = getEntities();
+    public String getAll(@RequestParam(value = "q", required = false) String query, Model model) {
+        List<E> entities;
+
+        if (query != null && !query.isBlank()) {
+            entities = getFilteredEntities(query);
+        } else {
+            entities = getEntities();
+        }
 
         return renderList(model, getTemplateName(), entities);
     }

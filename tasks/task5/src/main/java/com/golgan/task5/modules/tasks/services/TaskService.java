@@ -6,6 +6,8 @@ import com.golgan.task5.modules.tasks.repositories.TaskRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TaskService implements CRUDService<TaskEntity, Long> {
 
@@ -18,5 +20,14 @@ public class TaskService implements CRUDService<TaskEntity, Long> {
     @Override
     public TaskRepository getRepository() {
         return repository;
+    }
+
+
+    public List<TaskEntity> searchTasks(String query) {
+        return repository.findAllByTitleContainingIgnoreCaseOrTextContainingIgnoreCaseOrUserEmailContainingIgnoreCase(
+            query,
+            query,
+            query
+        );
     }
 }

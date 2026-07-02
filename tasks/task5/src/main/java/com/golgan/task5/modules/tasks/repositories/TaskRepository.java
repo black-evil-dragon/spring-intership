@@ -7,4 +7,11 @@ import java.util.List;
 
 public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
     List<TaskEntity> findAllByUserId(Long userId);
+
+    // Без комментариев
+    List<TaskEntity> findAllByTitleContainingIgnoreCaseOrTextContainingIgnoreCaseOrUserEmailContainingIgnoreCase(
+        String title,
+        String text,
+        String email
+    );
 }

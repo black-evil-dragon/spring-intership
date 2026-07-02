@@ -1,8 +1,9 @@
 <form th:fragment="taskForm(redirect)" th:action="@{/tasks/new}" th:object="${form}" method="POST">
-    <input th:if="${#lists.isEmpty(users)}" type="hidden" th:field="*{userId}" />
-    <input type="hidden" th:value="${redirect != null ? redirect : '/tasks'}" />
+    <input type="hidden" th:field="*{userId}" />
+    <input type="hidden" name="redirect" th:value="${redirect != null ? redirect : '/tasks'}" />
 
     <div th:if="${not #lists.isEmpty(users)}">
+
         <label for="userId">Автор:</label><br>
 
 

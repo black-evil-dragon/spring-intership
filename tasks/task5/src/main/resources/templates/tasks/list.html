@@ -14,8 +14,10 @@
     <a href="/tasks/new">Добавить задачу</a>
     <br /><br />
 
+    <div th:replace="~{components/search :: search}"></div>
+
     <div th:if="${#lists.isEmpty(items)}">
-        <p>Задачи пока не добавлены.</p>
+        <p>Не найдено</p>
     </div>
 
 
@@ -23,8 +25,9 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Ответственный</th>
                 <th>Название задачи</th>
+                <th>Ответственный</th>
+
                 <th>Действия</th>
             </tr>
         </thead>
@@ -32,8 +35,9 @@
         <tbody>
             <tr th:each="task : ${items}">
                 <td th:text="${task.id}">ID</td>
-                <td><a th:href="@{/users/{id}(id=${task.user.id})}" th:text="${task.user.email}">email</a></td>
                 <td th:text="${task.title}">Title</td>
+                <td><a th:href="@{/users/{id}(id=${task.user.id})}" th:text="${task.user.email}">email</a></td>
+
                 <td>
                     <a th:href="@{/tasks/{id}(id=${task.id})}">Смотреть</a>
                 </td>
