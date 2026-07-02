@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /// Чуть посложнее, так как нам нужно еще валидировать данные и сделать так,
 /// чтобы это универасально
@@ -30,6 +31,7 @@ public abstract class TemplateCreateController<E, CR, ID> extends TemplateContro
     // * ======================== RENDER ========================
     protected String renderForm(Model model, String templateName, CR createRequest) {
         model.addAttribute("form", createRequest);
+        initModel(model);
         return templateName;
     }
 
@@ -42,16 +44,24 @@ public abstract class TemplateCreateController<E, CR, ID> extends TemplateContro
 
 
     @PostMapping("/new")
-    public String create(@Valid @ModelAttribute("form") CR form, BindingResult bindingResult) {
+    public String create(@Valid @ModelAttribute("form") CR form, BindingResult bindingResult, @RequestParam(value = "redirect", required = false) String redirectUrl, Model model) {
         validate(form, bindingResult);
 
+        // Полезная оказывается штука, автоматически
+        // собирает тексты ошибок
         if (bindingResult.hasErrors()) {
-            // Полезная оказывается штука, автоматически
-            // собирает тексты ошибок
+            // Омг, не сбрасываем свою model
+            initModel(model);
+
             return getTemplateName();
         }
 
         createEntity(form);
+
+        // Избегаем редиректа, если создаем сущность внутри другого модуля
+        if (redirectUrl != null && !redirectUrl.isBlank()) {
+            return "redirect:" + redirectUrl;
+        }
 
         return "redirect:" + getSuccessUrl();
     }

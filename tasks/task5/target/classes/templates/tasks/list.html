@@ -3,11 +3,13 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Список пользователей</title>
+    <title>Список задач</title>
 </head>
 
 <body>
-    <h1>Список пользователей</h1>
+    <div th:replace="~{base :: header}"></div>
+
+    <h1>Список задач</h1>
 
     <a href="/tasks/new">Добавить задачу</a>
     <br /><br />
@@ -21,6 +23,7 @@
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Ответственный</th>
                 <th>Название задачи</th>
                 <th>Действия</th>
             </tr>
@@ -29,9 +32,10 @@
         <tbody>
             <tr th:each="task : ${items}">
                 <td th:text="${task.id}">ID</td>
+                <td th:text="${task.user.email}">Email</td>
                 <td th:text="${task.title}">Title</td>
                 <td>
-                    <a th:href="@{/tasks/{id}(id=${user.id})}">Смотреть</a>
+                    <a th:href="@{/tasks/{id}(id=${task.id})}">Смотреть</a>
                 </td>
             </tr>
         </tbody>

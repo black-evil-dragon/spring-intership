@@ -1,0 +1,33 @@
+<form th:fragment="taskForm(redirect)" th:action="@{/tasks/new}" th:object="${form}" method="POST">
+    <input th:if="${#lists.isEmpty(users)}" type="hidden" th:field="*{userId}" />
+    <input th:if="${redirect}" type="hidden" name="redirect" th:value="${redirect}" />
+
+    <div th:if="${not #lists.isEmpty(users)}">
+        <label for="userId">Автор:</label><br>
+
+
+        <select th:field="*{userId}">
+            <option value="">--Выберите пользователя--</option>
+
+            <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.email}">Email</option>
+        </select>
+        <p th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}" style="color: red;"></p>
+    </div>
+    <br>
+
+    <div>
+        <label for="title">Название задачи:</label><br>
+        <input type="text" th:field="*{title}" />
+        <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" style="color: red;"></p>
+    </div>
+    <br>
+
+    <div>
+        <label for="text">Текст задачи:</label><br>
+        <input type="text" th:field="*{text}" />
+        <p th:if="${#fields.hasErrors('text')}" th:errors="*{text}" style="color: red;"></p>
+    </div>
+    <br>
+
+    <button type="submit">Сохранить</button>
+</form>

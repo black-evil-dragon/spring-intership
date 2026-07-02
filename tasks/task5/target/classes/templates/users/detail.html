@@ -7,6 +7,7 @@
 </head>
 
 <body>
+    <div th:replace="~{base :: header}"></div>
 
     <p><a href="/users">Назад к списку</a></p>
 
@@ -22,7 +23,38 @@
             <strong>Email:</strong> <span th:text="*{email}">Email</span>
         </p>
 
-        <br>
+        <hr>
+
+        <h2>Список задач</h2>
+        <div th:if="${#lists.isEmpty(tasks)}">
+            <p>Задачи пока не добавлены.</p>
+        </div>
+
+        <table th:if="${not #lists.isEmpty(tasks)}" border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Название задачи</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="task : ${tasks}">
+                    <td th:text="${task.id}">ID</td>
+                    <td th:text="${task.title}">Title</td>
+                    <td>
+                        <a th:href="@{/tasks/{id}(id=${task.id})}">Смотреть</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <h2>Создать задачу пользователю</h2>
+
+        <div th:replace="~{tasks/forms/task :: taskForm(@{/users/{id}(id=*{id})})}"></div>
 
         <br>
 

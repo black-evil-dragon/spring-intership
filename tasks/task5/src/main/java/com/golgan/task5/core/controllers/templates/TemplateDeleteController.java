@@ -28,6 +28,7 @@ public abstract class TemplateDeleteController<E, ID> extends TemplateController
 
     protected String renderForm(Model model, String templateName, E entity) {
         model.addAttribute("form", entity);
+        initModel(model);
         return templateName;
     }
 

@@ -10,6 +10,8 @@ import java.util.List;
 /// Чисто из любопытства хочу изобрести велосипед
 ///
 /// Имитация рукописного Django-Template-View контроллеров
+///
+// Вообще еще интересно было бы сделать так, чтобы не пришлось постоянно прописывать путь обратно или на добавление
 public abstract class TemplateController<E, ID> {
 
     protected final CRUDService<E, ID> service;
@@ -28,11 +30,13 @@ public abstract class TemplateController<E, ID> {
     // * ======================== RENDER ========================
     protected String render(Model model, String templateName, E entity) {
         model.addAttribute("entity", entity);
+        initModel(model);
         return templateName;
     }
 
     protected String renderList(Model model, String templateName, List<E> entities) {
         model.addAttribute("items", entities);
+        initModel(model);
         return templateName;
     }
 

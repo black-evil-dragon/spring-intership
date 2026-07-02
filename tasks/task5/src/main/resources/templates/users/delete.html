@@ -7,14 +7,15 @@
 </head>
 
 <body>
+    <div th:replace="~{base :: header}"></div>
+
     <p><a href="/users">Назад к списку</a></p>
 
     <h1>Вы уверены, что хотите удалить?</h1>
 
     <form th:action="@{/users/delete/{id}(id=*{id})}" th:object="${form}" method="POST">
 
-        <p>Пользователь <span th:text="*{email}">EMAIL</span> будет удален безвозвратно!</p><br>
-
+        <p>Пользователь "<span th:text="*{email}">EMAIL</span>" будет удален безвозвратно!</p><br>
 
 
         <button type="submit">Согласен</button>

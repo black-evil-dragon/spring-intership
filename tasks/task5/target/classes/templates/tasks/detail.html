@@ -8,6 +8,8 @@
 
 <body>
 
+    <div th:replace="~{base :: header}"></div>
+
     <p><a href="/tasks">Назад к списку</a></p>
 
     <h1>Детали задачи</h1>
@@ -19,7 +21,14 @@
             <strong>ID:</strong> <span th:text="*{id}">1</span>
         </p>
         <p>
+            <strong>Ответственный:</strong> <span th:text="*{user.email}">User</span>
+        </p>
+        <p>
             <strong>Название:</strong> <span th:text="*{title}">Title</span>
+        </p>
+
+        <p>
+            <strong>Текст:</strong> <span th:text="*{text}">Text</span>
         </p>
 
         <br>
