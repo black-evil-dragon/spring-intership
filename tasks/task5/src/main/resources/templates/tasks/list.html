@@ -32,7 +32,7 @@
         <tbody>
             <tr th:each="task : ${items}">
                 <td th:text="${task.id}">ID</td>
-                <td th:text="${task.user.email}">Email</td>
+                <td><a th:href="@{/users/{id}(id=${task.user.id})}" th:text="${task.user.email}">email</a></td>
                 <td th:text="${task.title}">Title</td>
                 <td>
                     <a th:href="@{/tasks/{id}(id=${task.id})}">Смотреть</a>

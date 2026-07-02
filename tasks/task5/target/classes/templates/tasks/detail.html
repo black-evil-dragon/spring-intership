@@ -21,7 +21,7 @@
             <strong>ID:</strong> <span th:text="*{id}">1</span>
         </p>
         <p>
-            <strong>Ответственный:</strong> <span th:text="*{user.email}">User</span>
+            <strong>Ответственный:</strong> <a th:href="@{/users/{id}(id=*{user.id})}" th:text="*{user.email}">email</a>
         </p>
         <p>
             <strong>Название:</strong> <span th:text="*{title}">Title</span>
