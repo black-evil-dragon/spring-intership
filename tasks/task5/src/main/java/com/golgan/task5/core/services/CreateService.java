@@ -1,6 +1,6 @@
 package com.golgan.task5.core.services;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import jakarta.transaction.Transactional;
 
 /// # Сервис создания сущностей
 ///
@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /// @param <ID> Тип ключа сущности
 public interface CreateService<E, ID> extends BaseService<E, ID> {
 
-    ///
+    @Transactional
     default E save(E entity) {
         return getRepository().save(entity);
     }

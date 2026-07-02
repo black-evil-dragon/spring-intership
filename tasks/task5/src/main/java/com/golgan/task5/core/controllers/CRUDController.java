@@ -16,7 +16,7 @@ public abstract class CRUDController<E, ID> {
 
     // * ======================== CREATE ========================
     @PostMapping
-    public E create(E createDto) {
+     E create(E createDto) {
         return service.save(createDto);
     }
 

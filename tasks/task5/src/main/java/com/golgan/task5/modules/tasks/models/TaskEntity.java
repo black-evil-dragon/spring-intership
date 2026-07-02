@@ -17,7 +17,7 @@ public class TaskEntity extends AuditableEntity {
     private String title;
 
     @Column(nullable = false)
-    private String author;
+    private String text;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

@@ -16,7 +16,7 @@ public class UserService implements CRUDService<UserEntity, Long> {
     }
 
     @Override
-    public JpaRepository<UserEntity, Long> getRepository() {
+    public UserRepository getRepository() {
         return repository;
     }
 }

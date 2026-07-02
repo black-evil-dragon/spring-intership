@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Создание пользователя</title>
+</head>
+
+<body>
+
+    <p><a href="/users">Назад к списку</a></p>
+
+    <h1>Создание нового пользователя</h1>
+
+
+    <form th:action="@{/users/new}" th:object="${form}" method="POST">
+        <div>
+            <label for="email">Email:</label><br>
+            <input type="email" th:field="*{email}" />
+            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;"></p>
+        </div>
+        <br>
+
+        <div>
+            <label for="password">Пароль:</label><br>
+            <input type="password" th:field="*{password}" />
+            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red;"></p>
+        </div>
+        <br>
+
+        <button type="submit">Сохранить</button>
+    </form>
+
+</body>
+
+</html>

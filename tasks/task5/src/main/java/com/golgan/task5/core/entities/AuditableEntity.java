@@ -22,6 +22,9 @@ import java.time.Instant;
 @Setter
 public abstract class AuditableEntity extends BaseEntity {
 
+    // Аудиты оказывается чуть другое, что я представлял, но пока оставлю так.
+    // Хочу в будущем добавить еще, кто создал, кто обновил
+
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
