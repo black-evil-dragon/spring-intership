@@ -25,9 +25,6 @@ public class UserCreateController extends TemplateCreateController<UserEntity, U
 
     @Override
     protected void validate(UserCreateData createData, BindingResult bindingResult) {
-        System.out.println("ПРОВЕРКА");
-        System.out.println(service.getRepository().existsByEmail(createData.email()));
-        System.out.println(createData.email());
         if (service.getRepository().existsByEmail(createData.email())) {
             bindingResult.addError(
                 new FieldError("form",
