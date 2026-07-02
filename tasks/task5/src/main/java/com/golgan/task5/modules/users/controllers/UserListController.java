@@ -14,10 +14,9 @@ public class UserListController extends TemplateListController<UserEntity, Long>
 
     private final UserService userService;
 
-    protected UserListController(UserService service,
-                                 UserService userService) {
+    protected UserListController(UserService service) {
         super(service);
-        this.userService = userService;
+        this.userService = service;
     }
 
     @Override
