@@ -2,13 +2,17 @@ package com.golgan.task5.modules.users.controllers;
 
 import com.golgan.task5.core.controllers.templates.TemplateCreateController;
 import com.golgan.task5.core.services.PasswordService;
+
 import com.golgan.task5.modules.users.dto.UserCreateData;
 import com.golgan.task5.modules.users.models.UserEntity;
 import com.golgan.task5.modules.users.services.UserService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+
 
 @Controller
 @RequestMapping("/users")
@@ -17,7 +21,7 @@ public class UserCreateController extends TemplateCreateController<UserEntity, U
     private final PasswordService passwordService;
     private final UserService service;
 
-    protected UserCreateController(UserService service, PasswordService passwordService, UserService service1) {
+    protected UserCreateController(UserService service, PasswordService passwordService) {
         super(service);
         this.passwordService = passwordService;
         this.service = service;
