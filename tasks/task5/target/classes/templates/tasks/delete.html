@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Удаление задачи</title>
+</head>
+
+<body>
+    <div th:replace="~{base :: header}"></div>
+
+    <p><a href="/tasks">Назад к списку</a></p>
+
+    <h1>Вы уверены, что хотите удалить?</h1>
+
+    <form th:action="@{/tasks/delete/{id}(id=*{id})}" th:object="${form}" method="POST">
+
+        <p>Задача "<span th:text="*{title}">Title</span>" будет удалена безвозвратно!</p><br>
+
+
+
+        <button type="submit">Согласен</button>
+        <p><a href="/tasks">Назад к списку</a></p>
+    </form>
+
+</body>
+
+</html>

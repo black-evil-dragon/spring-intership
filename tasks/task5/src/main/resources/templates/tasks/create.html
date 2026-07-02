@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Создание задачи</title>
+</head>
+
+<body>
+    <div th:replace="~{base :: header}"></div>
+
+    <p><a href="/tasks">Назад к списку</a></p>
+
+    <h1>Создание новой задачи</h1>
+
+    <div th:replace="~{tasks/forms/task :: taskForm(null)}"></div>
+</body>
+
+</html>
