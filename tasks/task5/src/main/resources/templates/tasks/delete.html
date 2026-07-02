@@ -3,17 +3,17 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Удаление пользователя</title>
+    <title>Удаление задачи</title>
 </head>
 
 <body>
-    <p><a href="/users">Назад к списку</a></p>
+    <p><a href="/tasks">Назад к списку</a></p>
 
     <h1>Вы уверены, что хотите удалить?</h1>
 
     <form th:action="@{/users/delete/{id}(id=*{id})}" th:object="${form}" method="POST">
 
-        <p>Пользователь <span th:text="*{email}">EMAIL</span> будет удален безвозвратно!</p><br>
+        <p>Задача <span th:text="*{title}">EMAIL</span> будет удален безвозвратно!</p><br>
 
 
 

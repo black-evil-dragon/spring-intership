@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Детали задачи</title>
+</head>
+
+<body>
+
+    <p><a href="/tasks">Назад к списку</a></p>
+
+    <h1>Детали задачи</h1>
+
+
+
+    <div th:object="${entity}">
+        <p>
+            <strong>ID:</strong> <span th:text="*{id}">1</span>
+        </p>
+        <p>
+            <strong>Название:</strong> <span th:text="*{title}">Title</span>
+        </p>
+
+        <br>
+
+        <br>
+
+        <a th:href="@{/tasks/delete/{id}(id=*{id})}">Удалить задачу</a>
+    </div>
+</body>
+
+</html>

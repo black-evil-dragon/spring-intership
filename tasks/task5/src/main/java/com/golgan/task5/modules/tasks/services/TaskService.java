@@ -16,7 +16,7 @@ public class TaskService implements CRUDService<TaskEntity, Long> {
     }
 
     @Override
-    public JpaRepository<TaskEntity, Long> getRepository() {
+    public TaskRepository getRepository() {
         return repository;
     }
 }
