@@ -1,0 +1,25 @@
+{
+	"nodes":[
+		{"id":"9a77f60059505742","type":"text","text":"Менеджер","x":-1080,"y":-190,"width":250,"height":60},
+		{"id":"3284bc1694a7557f","type":"text","text":"Исполнитель","x":-1360,"y":-190,"width":250,"height":60},
+		{"id":"ca1312c18527dd79","type":"text","text":"Администратор","x":-800,"y":-190,"width":250,"height":60},
+		{"id":"1609f38e381a24a5","type":"text","text":"Просмотр списка пользователей","x":-1360,"y":-110,"width":810,"height":50,"color":"5"},
+		{"id":"aed0ba07e4c98c2c","type":"text","text":"Просмотр списка всех задач","x":-1080,"y":-40,"width":530,"height":60,"color":"5"},
+		{"id":"9c7ced4db6a8fcaf","type":"text","text":"Просмотр деталей задачи, если присутствует в ней","x":-1360,"y":40,"width":250,"height":60,"color":"5"},
+		{"id":"883ffe195d29f7d0","type":"text","text":"Просмотр деталей задачи любой задачи","x":-1080,"y":40,"width":530,"height":60,"color":"5"},
+		{"id":"327d39f1a51f79e7","type":"text","text":"Просмотр списка своих задач","x":-1360,"y":-40,"width":250,"height":60,"color":"5"},
+		{"id":"31f0876e7188c59e","type":"text","text":"Смена статуса с \"Ждет контроля\" на \"Ждет выполнения\" и \"Завершено\"","x":-1080,"y":205,"width":530,"height":75,"color":"5"},
+		{"id":"8dd1cbaf480c1e7f","type":"text","text":"Редактировать текст задачи","x":-1080,"y":300,"width":530,"height":56,"color":"5"},
+		{"id":"dfd4365d14366e2a","type":"text","text":"Изменять исполнителя","x":-1080,"y":380,"width":530,"height":56,"color":"5"},
+		{"id":"ba4e08f58d9e0f19","type":"text","text":"Создавать менеджеров","x":-800,"y":460,"width":250,"height":56,"color":"5"},
+		{"id":"4220e08cbec023ab","type":"text","text":"Смена статуса с \"Ждет выполнения\" на \"В работе\" и \"Ждет контроля\"","x":-1360,"y":120,"width":810,"height":60,"color":"5"},
+		{"id":"27085ba9f5aa9214","type":"text","text":"Авторизация","x":-1080,"y":-340,"width":250,"height":60,"color":"5"},
+		{"id":"8ba6cbe9e47ba4fe","type":"text","text":"Пользователь","x":-1080,"y":-440,"width":250,"height":60}
+	],
+	"edges":[
+		{"id":"2b63880a242483db","fromNode":"8ba6cbe9e47ba4fe","fromSide":"bottom","toNode":"27085ba9f5aa9214","toSide":"top"},
+		{"id":"b58e376418044349","fromNode":"27085ba9f5aa9214","fromSide":"bottom","toNode":"ca1312c18527dd79","toSide":"top"},
+		{"id":"6d27337edc2a0347","fromNode":"27085ba9f5aa9214","fromSide":"bottom","toNode":"9a77f60059505742","toSide":"top"},
+		{"id":"02ee696a118b18bf","fromNode":"27085ba9f5aa9214","fromSide":"bottom","toNode":"3284bc1694a7557f","toSide":"top"}
+	]
+}
