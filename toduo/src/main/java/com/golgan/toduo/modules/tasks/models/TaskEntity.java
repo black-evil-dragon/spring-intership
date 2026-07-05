@@ -1,0 +1,76 @@
+package com.golgan.toduo.modules.tasks.models;
+
+
+
+import com.golgan.toduo.core.entities.AuditableEntity;
+import com.golgan.toduo.modules.users.models.UserEntity;
+
+
+import jakarta.persistence.*;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.Instant;
+
+/// # Задача
+/// - Название
+/// - Текст
+/// - Крайний срок
+/// - Статус
+/// - Постановщик
+/// - Исполнитель
+
+@Entity
+@Table(name = "tasks")
+@NoArgsConstructor
+public class TaskEntity extends AuditableEntity {
+
+    /// ## Название
+    /// Заголовок у задачи, для отображения в списках
+    /// или в шапке задачи
+    /// ...
+    @Setter
+    @Getter
+    @Column(nullable = false)
+    private String title;
+
+
+    /// ## Текст задачи
+    /// Основное содержимое сути задачи
+    /// ...
+    // В целом можно тут хранить md формат или html верстку...
+    @Setter
+    @Getter
+    @Column()
+    private String text;
+
+
+    @Column(nullable = false)
+    private TaskStatus status;
+
+
+    @Column(name = "deadline", nullable = false)
+    private Instant deadline;
+
+
+
+    // Исполнитель и постановщик
+    @Setter
+    @Getter
+    @ManyToOne
+    @JoinColumn(name = "author_id", nullable = false)
+    private UserEntity author;
+
+    @Setter
+    @Getter
+    @ManyToOne
+    @JoinColumn(name = "assignee_id")
+    private UserEntity assignee;
+
+
+
+
+}
