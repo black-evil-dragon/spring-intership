@@ -1,0 +1,26 @@
+{
+	"nodes":[
+		{"id":"37229344c847beb3","type":"text","text":"Токен есть?","x":-1050,"y":86,"width":250,"height":60,"color":"2"},
+		{"id":"ce8a918ea6f331e1","type":"text","text":"Токен валиден?","x":-590,"y":-54,"width":250,"height":60,"color":"2"},
+		{"id":"0bd61ad43550fcd0","type":"text","text":"Показать форму авторизации","x":-590,"y":246,"width":250,"height":60,"color":"5"},
+		{"id":"d19ac98d7c8cc384","type":"text","text":"Такой пользователь существует в бд?","x":-270,"y":246,"width":250,"height":60,"color":"2"},
+		{"id":"717d98c466e29ace","type":"text","text":"Сохранить токен","x":-60,"y":86,"width":250,"height":60,"color":"5"},
+		{"id":"1683ae9c021c723a","type":"text","text":"Показать интерфейс","x":610,"y":-54,"width":250,"height":60,"color":"5"},
+		{"id":"02649cc1c5a90b8b","type":"text","text":"Создать лог о событии","x":190,"y":-54,"width":250,"height":60,"color":"5"},
+		{"id":"adec19d0d4755d50","type":"text","text":"Пользователь","x":-1660,"y":86,"width":250,"height":60},
+		{"id":"31fee1d0043c9ffe","type":"text","text":"Открытие сайта","x":-1360,"y":86,"width":250,"height":60}
+	],
+	"edges":[
+		{"id":"c7818be5ad6c917c","fromNode":"adec19d0d4755d50","fromSide":"right","toNode":"31fee1d0043c9ffe","toSide":"left"},
+		{"id":"3d1e4246fce5c999","fromNode":"37229344c847beb3","fromSide":"right","toNode":"ce8a918ea6f331e1","toSide":"left","color":"4"},
+		{"id":"8055dc9194bf6f77","fromNode":"37229344c847beb3","fromSide":"right","toNode":"0bd61ad43550fcd0","toSide":"left","color":"1"},
+		{"id":"818c503ead29d061","fromNode":"ce8a918ea6f331e1","fromSide":"right","toNode":"02649cc1c5a90b8b","toSide":"left","color":"4","label":"Валиден"},
+		{"id":"3dab7e2931185c9f","fromNode":"ce8a918ea6f331e1","fromSide":"bottom","toNode":"0bd61ad43550fcd0","toSide":"top","color":"1","label":"Не валиден, истек срок"},
+		{"id":"4a02d276b2d1a4b3","fromNode":"0bd61ad43550fcd0","fromSide":"right","toNode":"d19ac98d7c8cc384","toSide":"left"},
+		{"id":"2c374b7555e99308","fromNode":"d19ac98d7c8cc384","fromSide":"bottom","toNode":"0bd61ad43550fcd0","toSide":"bottom","color":"1","label":"Неверный логин или пароль"},
+		{"id":"c5e12705c5a4b690","fromNode":"d19ac98d7c8cc384","fromSide":"right","toNode":"717d98c466e29ace","toSide":"bottom","color":"4"},
+		{"id":"29f5d96d6091ef09","fromNode":"717d98c466e29ace","fromSide":"top","toNode":"02649cc1c5a90b8b","toSide":"left"},
+		{"id":"686cf6f732529e80","fromNode":"02649cc1c5a90b8b","fromSide":"right","toNode":"1683ae9c021c723a","toSide":"left"},
+		{"id":"5726a8e303d27c1a","fromNode":"31fee1d0043c9ffe","fromSide":"right","toNode":"37229344c847beb3","toSide":"left"}
+	]
+}
