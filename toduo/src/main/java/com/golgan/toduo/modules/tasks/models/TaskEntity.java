@@ -11,7 +11,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.Instant;
 
@@ -35,7 +34,7 @@ public class TaskEntity extends AuditableEntity {
     @Setter
     @Getter
     @Column(nullable = false)
-    private String title;
+    private String name;
 
 
     /// ## Текст задачи
@@ -45,14 +44,17 @@ public class TaskEntity extends AuditableEntity {
     @Setter
     @Getter
     @Column()
-    private String text;
+    private String description;
 
 
+    @Setter
+    @Getter
     @Column(nullable = false)
     private TaskStatus status;
 
-
-    @Column(name = "deadline", nullable = false)
+    @Setter
+    @Getter
+    @Column(name = "deadline")
     private Instant deadline;
 
 
