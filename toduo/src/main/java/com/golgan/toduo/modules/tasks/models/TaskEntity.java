@@ -3,6 +3,7 @@ package com.golgan.toduo.modules.tasks.models;
 
 
 import com.golgan.toduo.core.entities.AuditableEntity;
+import com.golgan.toduo.modules.desks.models.DeskColumnEntity;
 import com.golgan.toduo.modules.users.models.UserEntity;
 
 
@@ -36,7 +37,6 @@ public class TaskEntity extends AuditableEntity {
     @Column(nullable = false)
     private String name;
 
-
     /// ## Текст задачи
     /// Основное содержимое сути задачи
     /// ...
@@ -45,7 +45,6 @@ public class TaskEntity extends AuditableEntity {
     @Getter
     @Column()
     private String description;
-
 
     @Setter
     @Getter
@@ -58,21 +57,24 @@ public class TaskEntity extends AuditableEntity {
     private Instant deadline;
 
 
-
     // Исполнитель и постановщик
     @Setter
     @Getter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false)
     private UserEntity author;
 
     @Setter
     @Getter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "assignee_id")
     private UserEntity assignee;
 
 
-
-
+    // Отношение с колонкой
+    @Setter
+    @Getter
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "column_id", nullable = false)
+    private DeskColumnEntity column;
 }

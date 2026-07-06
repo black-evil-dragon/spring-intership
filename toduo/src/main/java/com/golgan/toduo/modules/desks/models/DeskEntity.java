@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "boards")
+@Table(name = "desks")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,7 +22,8 @@ public class DeskEntity extends AuditableEntity {
 
     @Setter
     @Getter
-    @Column(name = "owner_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id", nullable = false)
     private UserEntity owner;
 
     @Setter

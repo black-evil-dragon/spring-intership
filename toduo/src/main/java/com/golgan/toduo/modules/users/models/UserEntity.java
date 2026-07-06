@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
-
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
@@ -32,12 +31,12 @@ public class UserEntity extends AuditableEntity {
     // Bio information
     @Getter
     @Setter
-    @Column(nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
     @Getter
     @Setter
-    @Column(nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
 }
