@@ -20,7 +20,7 @@ import java.time.Instant;
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
-public abstract class AuditableEntity extends BaseEntity {
+public abstract class AuditableEntity {
 
     // Аудиты оказывается чуть другое, что я представлял, но пока оставлю так.
     // Хочу в будущем добавить еще, кто создал, кто обновил

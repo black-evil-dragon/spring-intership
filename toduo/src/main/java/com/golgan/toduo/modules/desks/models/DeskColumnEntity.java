@@ -1,6 +1,6 @@
 package com.golgan.toduo.modules.desks.models;
 
-import com.golgan.toduo.core.entities.BaseEntity;
+
 
 import com.golgan.toduo.modules.tasks.models.TaskEntity;
 import jakarta.persistence.*;
@@ -16,7 +16,13 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeskColumnEntity extends BaseEntity {
+public class DeskColumnEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "column_seq")
+    @SequenceGenerator(name = "column_seq", sequenceName = "column_id_seq", allocationSize = 10)
+    private Long id;
+
+
     @Setter
     @Getter
     @Column(nullable = false, length = 50)
