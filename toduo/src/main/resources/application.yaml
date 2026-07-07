@@ -1,15 +1,21 @@
+# ================== LOGS SETTINGS ===================== #
+logging:
+  charset:
+    console: UTF-8
+
+
+# ================== SPRING SETTINGS ===================== #
 spring:
   application:
     name: toduo
 
-# TODO Сделать профили
-#  datasource:
-#    url: ${DATABASE_HOST}
-#    username: ${DATABASE_USER}
-#    password: ${DATABASE_PASSWORD}
-#    driver-class-name: org.postgresql.Driver
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:prod}
 
-
-data:
-  id:
-    length: 6
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true

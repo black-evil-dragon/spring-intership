@@ -1,3 +1,9 @@
+amplicode.xml
+h2.mv.db
+.obsidian
+.env
+
+
 # Compiled class file
 *.class
 
@@ -23,6 +29,3 @@
 hs_err_pid*
 replay_pid*
 .idea
-tasks/amplicode.xml
-tasks/h2.mv.db
-.obsidian

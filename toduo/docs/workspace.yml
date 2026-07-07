@@ -1,0 +1,12 @@
+opencollection: 1.0.0
+info:
+  name: "Toduo"
+  type: workspace
+
+collections:
+  - name: "users"
+    path: "collections/users"
+
+specs:
+
+docs: ''
