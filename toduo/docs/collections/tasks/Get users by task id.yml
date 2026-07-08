@@ -1,14 +1,14 @@
 info:
-  name: Delete task by id
+  name: Get users by task id
   type: http
-  seq: 6
+  seq: 4
 
 http:
-  method: DELETE
-  url: "{{base_url}}/api/v1/tasks/:taskId"
+  method: GET
+  url: "{{base_url}}/api/v1/tasks/:taskId/users"
   params:
     - name: taskId
-      value: "1"
+      value: "2"
       type: path
   auth: inherit
 

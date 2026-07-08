@@ -1,6 +1,7 @@
 package com.golgan.toduo.modules.users.services;
 
 import com.golgan.toduo.core.services.PasswordService;
+import com.golgan.toduo.modules.tasks.models.TaskEntity;
 import com.golgan.toduo.modules.users.dto.UserCreateDto;
 import com.golgan.toduo.modules.users.dto.UserUpdateDto;
 import com.golgan.toduo.modules.users.mappers.UserMapper;
@@ -17,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 @Service
 public class UserService {
@@ -32,7 +35,6 @@ public class UserService {
         this.passwordService = passwordService;
     }
 
-
     // * ======================== READ ========================
     @Transactional(readOnly = true)
     public Page<UserEntity> getAll(Pageable pageable) {
@@ -47,6 +49,15 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserEntity getByEmail(String email) {
         return getOrNotFound(repository.findByEmail(email));
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<UserEntity> findAllByTask(TaskEntity task) {
+        return Stream.of(task.getAuthor(), task.getAssignee())
+            .filter(Objects::nonNull)
+            .distinct()
+            .toList();
     }
 
 
@@ -90,14 +101,17 @@ public class UserService {
 
 
     // * ======================== UTILS ========================
-    public UserEntity getOrNotFound(UserEntity entity) {
+    public UserEntity getOrNotFound(UserEntity entity, String entityName) {
         if (entity == null) {
             throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Пользователь не найден"
+                HttpStatus.NOT_FOUND, entityName + " не найден"
             );
         }
         return entity;
-
-
     }
+    public UserEntity getOrNotFound(UserEntity entity) {
+        return getOrNotFound(entity, "Пользователь");
+    }
+
+
 }

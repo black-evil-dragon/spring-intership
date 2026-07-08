@@ -8,6 +8,10 @@ import com.golgan.toduo.modules.tasks.mappers.TaskMapper;
 import com.golgan.toduo.modules.tasks.models.TaskEntity;
 import com.golgan.toduo.modules.tasks.services.TaskService;
 
+import com.golgan.toduo.modules.users.dto.UserSummaryDto;
+import com.golgan.toduo.modules.users.mappers.UserMapper;
+import com.golgan.toduo.modules.users.models.UserEntity;
+import com.golgan.toduo.modules.users.services.UserService;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -17,6 +21,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Stream;
 
 
 @RestController
@@ -26,9 +32,14 @@ public class TaskController {
     private final TaskService service;
     private final TaskMapper mapper;
 
-    public TaskController(TaskService TaskService, TaskMapper mapper) {
+    private final UserService userService;
+    private final UserMapper userMapper;
+
+    public TaskController(TaskService TaskService, UserService userService, TaskMapper mapper, UserMapper userMapper) {
         this.service = TaskService;
+        this.userService = userService;
         this.mapper = mapper;
+        this.userMapper = userMapper;
     }
 
 
@@ -36,9 +47,9 @@ public class TaskController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public Page<TaskSummaryDto> getAll(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
-        Page<TaskEntity> Tasks = service.getAll(pageable);
+        Page<TaskEntity> tasks = service.getAll(pageable);
 
-        return Tasks.map(mapper::toSummaryDto);
+        return tasks.map(mapper::toSummaryDto);
     }
 
 
@@ -46,9 +57,18 @@ public class TaskController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public TaskDetailDto getById(@PathVariable Long id) {
-        TaskEntity Task = service.getById(id);
+        TaskEntity task = service.getById(id);
 
-        return mapper.toDetailDto(Task);
+        return mapper.toDetailDto(task);
+    }
+
+    @GetMapping("/{id}/users")
+    @ResponseStatus(HttpStatus.OK)
+    public List<UserSummaryDto> getUsersByTaskId(@PathVariable Long id) {
+        TaskEntity task = service.getById(id);
+        List<UserEntity> users = userService.findAllByTask(task);
+
+        return users.stream().map(userMapper::toSummaryDto).toList();
     }
 
 
@@ -68,9 +88,9 @@ public class TaskController {
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public TaskDetailDto update(@PathVariable Long id, @Valid @RequestBody TaskUpdateDto updateDto) {
-        TaskEntity Task = service.update(id, updateDto);
+        TaskEntity task = service.update(id, updateDto);
 
-        return mapper.toDetailDto(Task);
+        return mapper.toDetailDto(task);
     }
 
 

@@ -9,12 +9,13 @@ import com.golgan.toduo.modules.tasks.repositories.TaskRepository;
 import com.golgan.toduo.modules.users.models.UserEntity;
 import com.golgan.toduo.modules.users.repositories.UserRepository;
 import com.golgan.toduo.modules.users.services.UserService;
-import jakarta.transaction.Transactional;
+
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 
@@ -35,12 +36,12 @@ public class TaskService {
 
 
     // * ======================== READ ========================
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<TaskEntity> getAll(Pageable pageable) {
         return repository.findAll(pageable);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public TaskEntity getById(Long id) {
         return getOrNotFound(repository.findById(id).orElse(null));
     }
@@ -49,16 +50,16 @@ public class TaskService {
     // * ======================== CREATE ========================
     @Transactional
     public TaskEntity create(TaskCreateDto createDto) {
-        if (userService.getById(createDto.authorId()) == null) {
-            throw new ResponseStatusException(
-                HttpStatus.BAD_REQUEST, "Постановщика с заданным ID не существует"
-            );
-        }
-
-        UserEntity author = userService.getById(createDto.authorId());
+        // Создание задачи
         TaskEntity newTask = mapper.toEntity(createDto);
 
-        newTask.setAuthor(author);
+
+        // Добавление Постановщика и Исполнителя
+        setAuthorByUserId(createDto.authorId(), newTask);
+
+        if (createDto.assigneeId() != null) {
+            addAssigneeByUserId(createDto.authorId(), newTask);
+        }
 
 
         return repository.save(newTask);
@@ -68,11 +69,25 @@ public class TaskService {
     // * ======================== UPDATE ========================
     @Transactional
     public TaskEntity update(Long id, TaskUpdateDto updateDto) {
-        TaskEntity Task = getOrNotFound(repository.findById(id).orElse(null));
+        // Получение задачи
+        TaskEntity task = getOrNotFound(repository.findById(id).orElse(null));
 
-        mapper.update(updateDto, Task);
 
-        return repository.save(Task);
+        // Обновление совподающих полей
+        mapper.update(updateDto, task);
+
+
+        // Обработка вставки Постановщика и Исполнителя
+        if (updateDto.authorId() != null) {
+            setAuthorByUserId(updateDto.authorId(), task);
+        }
+
+        if (updateDto.assigneeId() != null) {
+            addAssigneeByUserId(updateDto.assigneeId(), task);
+        }
+
+
+        return repository.save(task);
     }
 
 
@@ -94,7 +109,18 @@ public class TaskService {
             );
         }
         return entity;
+    }
 
 
+    public void setAuthorByUserId(Long userId, TaskEntity task) {
+        UserEntity user = userService.getOrNotFound(userService.getById(userId), "Постановщик");
+
+        task.setAuthor(user);
+    }
+
+    public void addAssigneeByUserId(Long userId, TaskEntity task) {
+        UserEntity user = userService.getOrNotFound(userService.getById(userId), "Исполнитель");
+
+        task.setAssignee(user);
     }
 }

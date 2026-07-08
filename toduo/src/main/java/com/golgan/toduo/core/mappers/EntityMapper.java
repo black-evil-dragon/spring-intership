@@ -27,5 +27,4 @@ public interface EntityMapper<
     SummaryDto toSummaryDto(Entity entity);
 
     ListDto toListDto(Entity entity);
-    List<ListDto> toListDtoCollection(List<Entity> entities);
 }
