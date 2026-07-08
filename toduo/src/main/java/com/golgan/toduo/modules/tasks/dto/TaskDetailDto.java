@@ -12,6 +12,8 @@ public record TaskDetailDto(
     TaskStatus status,
     Integer sort,
 
+    String description,
+
     UserSummaryDto assignee,
     UserSummaryDto author,
 

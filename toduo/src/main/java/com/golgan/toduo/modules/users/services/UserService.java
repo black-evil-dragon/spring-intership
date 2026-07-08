@@ -8,12 +8,12 @@ import com.golgan.toduo.modules.users.models.UserEntity;
 import com.golgan.toduo.modules.users.repositories.UserRepository;
 
 
-import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -34,14 +34,19 @@ public class UserService {
 
 
     // * ======================== READ ========================
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<UserEntity> getAll(Pageable pageable) {
         return repository.findAll(pageable);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public UserEntity getById(Long id) {
         return getOrNotFound(repository.findById(id).orElse(null));
+    }
+
+    @Transactional(readOnly = true)
+    public UserEntity getByEmail(String email) {
+        return getOrNotFound(repository.findByEmail(email));
     }
 
 

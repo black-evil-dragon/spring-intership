@@ -17,7 +17,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DeskColumnEntity {
+
     @Id
+    @Setter
+    @Getter
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "column_seq")
     @SequenceGenerator(name = "column_seq", sequenceName = "column_id_seq", allocationSize = 10)
     private Long id;
@@ -39,9 +43,10 @@ public class DeskColumnEntity {
     @JoinColumn(name = "desk_id", nullable = false)
     private DeskEntity desk;
 
-    @Setter
-    @Getter
-    @OneToMany(mappedBy = "column", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<TaskEntity> tasks = new ArrayList<>();
+    // TODO Временно для разработки
+    // @Setter
+    // @Getter
+    // @OneToMany(mappedBy = "column", cascade = CascadeType.ALL)
+    // @Builder.Default
+    // private List<TaskEntity> tasks = new ArrayList<>();
 }

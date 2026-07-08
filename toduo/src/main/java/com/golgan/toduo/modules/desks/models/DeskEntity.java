@@ -16,6 +16,9 @@ import java.util.List;
 public class DeskEntity extends AuditableEntity {
 
     @Id
+    @Setter
+    @Getter
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "desk_seq")
     @SequenceGenerator(name = "desk_seq", sequenceName = "desk_id_seq", allocationSize = 5)
     private Long id;

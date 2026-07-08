@@ -6,6 +6,8 @@ info:
 collections:
   - name: "users"
     path: "collections/users"
+  - name: "tasks"
+    path: "collections/tasks"
 
 specs:
 
