@@ -6,6 +6,7 @@ import com.golgan.toduo.modules.tasks.dto.TaskSummaryDto;
 import com.golgan.toduo.modules.tasks.dto.TaskUpdateDto;
 import com.golgan.toduo.modules.tasks.mappers.TaskMapper;
 import com.golgan.toduo.modules.tasks.models.TaskEntity;
+import com.golgan.toduo.modules.tasks.models.TaskStatus;
 import com.golgan.toduo.modules.tasks.services.TaskService;
 
 import com.golgan.toduo.modules.users.dto.UserSummaryDto;
@@ -17,7 +18,9 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,12 +49,23 @@ public class TaskController {
     // * ======================== READ ========================
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Page<TaskSummaryDto> getAll(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
-        Page<TaskEntity> tasks = service.getAll(pageable);
+    public PagedModel<TaskSummaryDto> getAll(
+        @RequestParam(required = false) String status,
+        @PageableDefault(size = 20, sort = "id", direction = Sort.Direction.ASC) Pageable pageable
+    ) {
+        Page<TaskEntity> tasks;
 
-        return tasks.map(mapper::toSummaryDto);
+        // Вообще интересно почитать про динамик sql, но пока не буду городить код этим
+        if (status != null) {
+            tasks = service.getFiltered(TaskStatus.valueOf(status.trim().toUpperCase()), pageable);
+            return new PagedModel<>(tasks.map(mapper::toSummaryDto));
+        }
+
+
+        tasks = service.getAll(pageable);
+
+        return new PagedModel<>(tasks.map(mapper::toSummaryDto));
     }
-
 
 
     @GetMapping("/{id}")
@@ -72,7 +86,6 @@ public class TaskController {
     }
 
 
-
     // * ======================== CREATE ========================
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -83,7 +96,6 @@ public class TaskController {
     }
 
 
-
     // * ======================== UPDATE ========================
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -92,7 +104,6 @@ public class TaskController {
 
         return mapper.toDetailDto(task);
     }
-
 
 
     // * ======================== DELETE ========================

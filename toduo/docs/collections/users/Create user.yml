@@ -10,7 +10,7 @@ http:
     type: json
     data: |-
       {
-        "email": "support1@toduo.ru",
+        "email": "support@toduo.ru",
         "password": "12341234",
         "firstName": "Ту",
         "lastName": "Ду Листович"

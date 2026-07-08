@@ -4,10 +4,10 @@ import com.golgan.toduo.modules.tasks.dto.TaskCreateDto;
 import com.golgan.toduo.modules.tasks.dto.TaskUpdateDto;
 import com.golgan.toduo.modules.tasks.mappers.TaskMapper;
 import com.golgan.toduo.modules.tasks.models.TaskEntity;
+import com.golgan.toduo.modules.tasks.models.TaskStatus;
 import com.golgan.toduo.modules.tasks.repositories.TaskRepository;
 
 import com.golgan.toduo.modules.users.models.UserEntity;
-import com.golgan.toduo.modules.users.repositories.UserRepository;
 import com.golgan.toduo.modules.users.services.UserService;
 
 
@@ -39,6 +39,11 @@ public class TaskService {
     @Transactional(readOnly = true)
     public Page<TaskEntity> getAll(Pageable pageable) {
         return repository.findAll(pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<TaskEntity> getFiltered(TaskStatus status, Pageable pageable) {
+        return repository.findByStatus(status, pageable);
     }
 
     @Transactional(readOnly = true)
