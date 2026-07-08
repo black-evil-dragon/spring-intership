@@ -1,5 +1,6 @@
 package com.golgan.toduo.modules.users.services;
 
+import com.golgan.toduo.core.services.CRUDService;
 import com.golgan.toduo.core.services.PasswordService;
 import com.golgan.toduo.modules.tasks.models.TaskEntity;
 import com.golgan.toduo.modules.users.dto.UserCreateDto;
@@ -9,43 +10,35 @@ import com.golgan.toduo.modules.users.models.UserEntity;
 import com.golgan.toduo.modules.users.repositories.UserRepository;
 
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-@Service
-public class UserService {
 
-    private final UserRepository repository;
+
+@Service
+public class UserService extends CRUDService<UserEntity, UserRepository, Long> {
+
     private final UserMapper mapper;
 
     private final PasswordService passwordService;
 
     public UserService(UserRepository repository, UserMapper mapper, PasswordService passwordService) {
-        this.repository = repository;
+        super(repository);
+
         this.mapper = mapper;
         this.passwordService = passwordService;
     }
 
     // * ======================== READ ========================
-    @Transactional(readOnly = true)
-    public Page<UserEntity> getAll(Pageable pageable) {
-        return repository.findAll(pageable);
-    }
-
-    @Transactional(readOnly = true)
-    public UserEntity getById(Long id) {
-        return getOrNotFound(repository.findById(id).orElse(null));
-    }
-
     @Transactional(readOnly = true)
     public UserEntity getByEmail(String email) {
         return getOrNotFound(repository.findByEmail(email));
@@ -63,7 +56,7 @@ public class UserService {
 
     // * ======================== CREATE ========================
     @Transactional
-    public UserEntity create(UserCreateDto createDto) {
+    public UserEntity create(@Valid @RequestBody UserCreateDto createDto) {
         if (repository.existsByEmail(createDto.email())) {
             throw new ResponseStatusException(
                 HttpStatus.BAD_REQUEST, "Пользователь уже существует"
@@ -81,37 +74,11 @@ public class UserService {
 
     // * ======================== UPDATE ========================
     @Transactional
-    public UserEntity update(Long id, UserUpdateDto updateDto) {
+    public UserEntity update(Long id, @Valid @RequestBody UserUpdateDto updateDto) {
         UserEntity user = getOrNotFound(repository.findById(id).orElse(null));
 
         mapper.update(updateDto, user);
 
         return repository.save(user);
     }
-
-
-    // * ======================== DELETE ========================
-    @Transactional
-    public void delete(Long id) {
-        UserEntity user = getOrNotFound(repository.findById(id).orElse(null));
-
-        repository.delete(user);
-    }
-
-
-
-    // * ======================== UTILS ========================
-    public UserEntity getOrNotFound(UserEntity entity, String entityName) {
-        if (entity == null) {
-            throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, entityName + " не найден"
-            );
-        }
-        return entity;
-    }
-    public UserEntity getOrNotFound(UserEntity entity) {
-        return getOrNotFound(entity, "Пользователь");
-    }
-
-
 }

@@ -33,7 +33,7 @@ public class UserController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public Page<UserSummaryDto> getAll(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
-        Page<UserEntity> users = service.getAll(pageable);
+        Page<UserEntity> users = service.findAll(pageable);
 
         return users.map(mapper::toSummaryDto);
     }
@@ -43,7 +43,7 @@ public class UserController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UserDetailDto getById(@PathVariable Long id) {
-        UserEntity user = service.getById(id);
+        UserEntity user = service.findById(id);
 
         return mapper.toDetailDto(user);
     }
@@ -75,6 +75,6 @@ public class UserController {
     // * ======================== DELETE ========================
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        service.delete(id);
+        service.deleteById(id);
     }
 }

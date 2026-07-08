@@ -62,7 +62,7 @@ public class TaskController {
         }
 
 
-        tasks = service.getAll(pageable);
+        tasks = service.findAll(pageable);
 
         return new PagedModel<>(tasks.map(mapper::toSummaryDto));
     }
@@ -71,7 +71,7 @@ public class TaskController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public TaskDetailDto getById(@PathVariable Long id) {
-        TaskEntity task = service.getById(id);
+        TaskEntity task = service.findById(id);
 
         return mapper.toDetailDto(task);
     }
@@ -79,7 +79,7 @@ public class TaskController {
     @GetMapping("/{id}/users")
     @ResponseStatus(HttpStatus.OK)
     public List<UserSummaryDto> getUsersByTaskId(@PathVariable Long id) {
-        TaskEntity task = service.getById(id);
+        TaskEntity task = service.findById(id);
         List<UserEntity> users = userService.findAllByTask(task);
 
         return users.stream().map(userMapper::toSummaryDto).toList();
@@ -109,6 +109,6 @@ public class TaskController {
     // * ======================== DELETE ========================
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        service.delete(id);
+        service.deleteById(id);
     }
 }

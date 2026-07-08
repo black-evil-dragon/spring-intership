@@ -1,5 +1,6 @@
 package com.golgan.toduo.modules.tasks.services;
 
+import com.golgan.toduo.core.services.CRUDService;
 import com.golgan.toduo.modules.tasks.dto.TaskCreateDto;
 import com.golgan.toduo.modules.tasks.dto.TaskUpdateDto;
 import com.golgan.toduo.modules.tasks.mappers.TaskMapper;
@@ -10,51 +11,39 @@ import com.golgan.toduo.modules.tasks.repositories.TaskRepository;
 import com.golgan.toduo.modules.users.models.UserEntity;
 import com.golgan.toduo.modules.users.services.UserService;
 
+import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 
 @Service
-public class TaskService {
+public class TaskService extends CRUDService<TaskEntity, TaskRepository, Long> {
 
     private final UserService userService;
-    private final TaskRepository repository;
     private final TaskMapper mapper;
 
 
     public TaskService(UserService userService, TaskRepository repository, TaskMapper mapper) {
+        super(repository);
         this.userService = userService;
-        this.repository = repository;
         this.mapper = mapper;
     }
 
 
     // * ======================== READ ========================
     @Transactional(readOnly = true)
-    public Page<TaskEntity> getAll(Pageable pageable) {
-        return repository.findAll(pageable);
-    }
-
-    @Transactional(readOnly = true)
     public Page<TaskEntity> getFiltered(TaskStatus status, Pageable pageable) {
         return repository.findByStatus(status, pageable);
     }
 
-    @Transactional(readOnly = true)
-    public TaskEntity getById(Long id) {
-        return getOrNotFound(repository.findById(id).orElse(null));
-    }
-
-
     // * ======================== CREATE ========================
     @Transactional
-    public TaskEntity create(TaskCreateDto createDto) {
+    public TaskEntity create(@Valid @RequestBody TaskCreateDto createDto) {
         // Создание задачи
         TaskEntity newTask = mapper.toEntity(createDto);
 
@@ -73,7 +62,7 @@ public class TaskService {
 
     // * ======================== UPDATE ========================
     @Transactional
-    public TaskEntity update(Long id, TaskUpdateDto updateDto) {
+    public TaskEntity update(Long id, @Valid @RequestBody TaskUpdateDto updateDto) {
         // Получение задачи
         TaskEntity task = getOrNotFound(repository.findById(id).orElse(null));
 
@@ -96,35 +85,16 @@ public class TaskService {
     }
 
 
-    // * ======================== DELETE ========================
-    @Transactional
-    public void delete(Long id) {
-        TaskEntity Task = getOrNotFound(repository.findById(id).orElse(null));
-
-        repository.delete(Task);
-    }
-
-
-
     // * ======================== UTILS ========================
-    public TaskEntity getOrNotFound(TaskEntity entity) {
-        if (entity == null) {
-            throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Задача не найдена"
-            );
-        }
-        return entity;
-    }
-
 
     public void setAuthorByUserId(Long userId, TaskEntity task) {
-        UserEntity user = userService.getOrNotFound(userService.getById(userId), "Постановщик");
+        UserEntity user = userService.getOrNotFound(userService.findById(userId), "Постановщик");
 
         task.setAuthor(user);
     }
 
     public void addAssigneeByUserId(Long userId, TaskEntity task) {
-        UserEntity user = userService.getOrNotFound(userService.getById(userId), "Исполнитель");
+        UserEntity user = userService.getOrNotFound(userService.findById(userId), "Исполнитель");
 
         task.setAssignee(user);
     }
