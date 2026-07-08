@@ -2,9 +2,7 @@ package com.golgan.toduo.modules.users.models;
 
 import com.golgan.toduo.core.entities.AuditableEntity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +13,11 @@ import lombok.Setter;
 @Table(name = "users")
 @NoArgsConstructor
 public class UserEntity extends AuditableEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_id_seq", allocationSize = 1)
+    private Long id;
 
     // Identity information
     @Setter

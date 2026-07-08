@@ -1,0 +1,69 @@
+# ================== SERVER SETTINGS ===================== #
+server:
+  error:
+    include-stacktrace: ${INCLUDE_STACKTRACE:always}
+    include-message: always
+
+
+
+# ================== LOGS SETTINGS ===================== #
+logging:
+  level:
+    org.springframework.web: ${DEV_LOG_LEVEL_WEB:INFO}
+    com.caselab.api: ${DEV_LOG_LEVEL_APP:INFO}
+#    org.flywaydb: ${DEV_LOG_LEVEL_FLYWAY:INFO}
+
+
+
+# ================== SPRING SETTINGS ===================== #
+spring:
+  application:
+    name: toduo-dev
+
+  # CORE
+  config:
+    activate:
+      on-profile: dev
+
+  security:
+    enabled: ${spring.security.enabled:false}
+  # END CORE
+
+
+  # DATABASE
+#  datasource:
+#    url: ${DATABASE_HOST}
+#    username: ${DATABASE_USER}
+#    password: ${DATABASE_PASSWORD}
+#    driver-class-name: org.postgresql.Driver
+
+#  flyway:
+#    enabled: true
+#    schemas: public
+#    locations: classpath:db/migration
+#    baseline-on-migrate: true
+#    baseline-version: 0
+
+  jpa:
+    show-sql: ${DEV_JPA_SHOW_SQL:true}
+
+    hibernate:
+      ddl-auto: ${DEV_DDL_AUTO:validate}
+
+    properties:
+      hibernate:
+        format_sql: ${DEV_JPA_FORMAT_SQL:true}
+        highlight_sql: true
+  # END DATABASE
+
+
+  # DEV SETTINGS
+  devtools:
+    add-properties: ${DEV_DEVTOOLS_ADD_PROPERTIES:true}
+
+    restart:
+      enabled: ${DEV_DEVTOOLS_RESTART:true}
+
+    livereload:
+      enabled: ${DEV_DEVTOOLS_LIVERELOAD:true}
+  # END DEV SETTINGS
