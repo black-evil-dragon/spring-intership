@@ -1,7 +1,6 @@
 package com.golgan.toduo.modules.desks.dto;
 
-import com.golgan.toduo.modules.tasks.dto.TaskListDto;
-
+import com.golgan.toduo.modules.tasks.dto.TaskSummaryDto;
 
 import java.util.List;
 
@@ -10,6 +9,6 @@ public record DeskColumnDetailDto(
     String name,
     Integer position,
 
-    List<TaskListDto> tasks
+    List<TaskSummaryDto> tasks
 ) {
 }

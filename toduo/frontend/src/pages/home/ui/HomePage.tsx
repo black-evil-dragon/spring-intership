@@ -1,10 +1,16 @@
-import { Container } from "@mui/material"
+import { Container } from '@mui/material';
+
+import { Desk } from '@entities/desk/ui/Desk';
+
+
 
 export const HomePage = () => {
 
     return (<>
-        <Container maxWidth="xl">
-            Home page
+        <Container maxWidth="xl" sx={{
+            height: "100%"
+        }}>
+            <Desk />
         </Container>
     </>);
 };
