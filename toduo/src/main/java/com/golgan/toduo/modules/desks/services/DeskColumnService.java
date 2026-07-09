@@ -7,6 +7,7 @@ import com.golgan.toduo.modules.desks.mappers.DeskColumnMapper;
 import com.golgan.toduo.modules.desks.models.DeskColumnEntity;
 import com.golgan.toduo.modules.desks.models.DeskEntity;
 import com.golgan.toduo.modules.desks.repositories.DeskColumnRepository;
+import com.golgan.toduo.modules.tasks.models.TaskEntity;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -147,6 +148,33 @@ public class DeskColumnService {
         }
 
         repository.saveAll(columns);
+    }
+
+    // * ======================== UTILS ========================
+    public void addTask(TaskEntity task, Long deskId, Long columnId) {
+        DeskEntity desk = deskService.findById(deskId);
+
+        DeskColumnEntity column;
+
+        // Если не передан ID колонки
+        if (columnId == null) {
+
+            column = repository.findFirstByDeskIdOrderByPositionAsc(deskId).orElse(null);
+
+            // Если колонки еще не создавали
+            if (column == null) {
+                DeskColumnCreateDto createDto = new DeskColumnCreateDto(
+                    "Не запланировано"
+                );
+
+                column = create(deskId, createDto);
+            }
+        } else {
+            // Иначе просто ищем нужную колонку
+            column = getByIdOrNotFound(columnId);
+        }
+
+        task.setColumn(column);
     }
 
 

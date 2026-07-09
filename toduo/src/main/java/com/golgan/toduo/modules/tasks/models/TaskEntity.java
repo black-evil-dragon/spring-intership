@@ -80,10 +80,9 @@ public class TaskEntity extends AuditableEntity {
 
 
     // Отношение с колонкой
-    // TODO Временно для разработки
-    // @Setter
-    // @Getter
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "column_id", nullable = false)
-    // private DeskColumnEntity column;
+    @Setter
+    @Getter
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "column_id", nullable = false)
+    private DeskColumnEntity column;
 }

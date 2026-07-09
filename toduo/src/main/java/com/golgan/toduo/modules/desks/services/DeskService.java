@@ -9,13 +9,10 @@ import com.golgan.toduo.modules.desks.models.DeskEntity;
 import com.golgan.toduo.modules.desks.repositories.DeskRepository;
 import com.golgan.toduo.modules.users.models.UserEntity;
 import com.golgan.toduo.modules.users.services.UserService;
-
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-
 
 
 @Service
@@ -25,8 +22,13 @@ public class DeskService extends CRUDService<DeskEntity, DeskRepository, Long> {
 
     private final UserService userService;
 
-    protected DeskService(DeskRepository repository, DeskMapper mapper,
-                          UserService userService) {
+
+
+    protected DeskService(
+        DeskRepository repository,
+        DeskMapper mapper,
+        UserService userService
+    ) {
         super(repository);
 
         this.mapper = mapper;
@@ -42,6 +44,7 @@ public class DeskService extends CRUDService<DeskEntity, DeskRepository, Long> {
 
         return repository.save(desk);
     }
+
 
     @Transactional
     public DeskEntity update(Long id, @Valid @RequestBody DeskUpdateDto updateDto) {

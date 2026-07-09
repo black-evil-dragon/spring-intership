@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface DeskColumnRepository extends JpaRepository<DeskColumnEntity, Long> {
@@ -15,6 +16,7 @@ public interface DeskColumnRepository extends JpaRepository<DeskColumnEntity, Lo
     Page<DeskColumnEntity> findAllByDeskIdOrderByPositionAsc(Long deskId, Pageable pageable);
     List<DeskColumnEntity> findAllByDeskIdOrderByPositionAsc(Long deskId);
 
+    Optional<DeskColumnEntity> findFirstByDeskIdOrderByPositionAsc(Long deskId);
 
     int countByDeskId(Long deskId);
 }

@@ -1,18 +1,16 @@
 package com.golgan.toduo.modules.tasks.services;
 
 import com.golgan.toduo.core.services.CRUDService;
+import com.golgan.toduo.modules.desks.services.DeskColumnService;
 import com.golgan.toduo.modules.tasks.dto.TaskCreateDto;
 import com.golgan.toduo.modules.tasks.dto.TaskUpdateDto;
 import com.golgan.toduo.modules.tasks.mappers.TaskMapper;
 import com.golgan.toduo.modules.tasks.models.TaskEntity;
 import com.golgan.toduo.modules.tasks.models.TaskStatus;
 import com.golgan.toduo.modules.tasks.repositories.TaskRepository;
-
 import com.golgan.toduo.modules.users.models.UserEntity;
 import com.golgan.toduo.modules.users.services.UserService;
-
 import jakarta.validation.Valid;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,11 +25,14 @@ public class TaskService extends CRUDService<TaskEntity, TaskRepository, Long> {
     private final UserService userService;
     private final TaskMapper mapper;
 
+    private final DeskColumnService deskColumnService;
 
-    public TaskService(UserService userService, TaskRepository repository, TaskMapper mapper) {
+
+    public TaskService(UserService userService, TaskRepository repository, TaskMapper mapper, DeskColumnService deskColumnService) {
         super(repository);
         this.userService = userService;
         this.mapper = mapper;
+        this.deskColumnService = deskColumnService;
     }
 
 
@@ -52,8 +53,10 @@ public class TaskService extends CRUDService<TaskEntity, TaskRepository, Long> {
         setAuthorByUserId(createDto.authorId(), newTask);
 
         if (createDto.assigneeId() != null) {
-            addAssigneeByUserId(createDto.authorId(), newTask);
+            addAssigneeByUserId(createDto.assigneeId(), newTask);
         }
+
+        deskColumnService.addTask(newTask, createDto.deskId(), createDto.columnId());
 
 
         return repository.save(newTask);

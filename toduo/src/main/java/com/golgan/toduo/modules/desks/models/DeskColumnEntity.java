@@ -2,9 +2,13 @@ package com.golgan.toduo.modules.desks.models;
 
 
 
+import com.golgan.toduo.modules.tasks.models.TaskEntity;
 import jakarta.persistence.*;
 
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -39,10 +43,10 @@ public class DeskColumnEntity {
     @JoinColumn(name = "desk_id", nullable = false)
     private DeskEntity desk;
 
-    // TODO Временно для разработки
-    // @Setter
-    // @Getter
-    // @OneToMany(mappedBy = "column", cascade = CascadeType.ALL)
-    // @Builder.Default
-    // private List<TaskEntity> tasks = new ArrayList<>();
+
+    @Setter
+    @Getter
+    @OneToMany(mappedBy = "column", cascade = CascadeType.ALL)
+    @Builder.Default
+    private List<TaskEntity> tasks = new ArrayList<>();
 }

@@ -3,8 +3,6 @@ package com.golgan.toduo.modules.tasks.models;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
 
-import java.util.Locale;
-
 public enum TaskStatus {
     // AWAITING STATUSES
     AWAIT_WORK("Ожидает выполнения", "awaitWork"),
