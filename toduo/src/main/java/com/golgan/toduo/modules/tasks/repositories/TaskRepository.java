@@ -9,4 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
 
     Page<TaskEntity> findByStatus(TaskStatus status, Pageable pageable);
+
+
+    Page<TaskEntity> findByColumnId(Long columnId, Pageable pageable);
 }

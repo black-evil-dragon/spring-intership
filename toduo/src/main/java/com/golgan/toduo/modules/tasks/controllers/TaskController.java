@@ -13,6 +13,7 @@ import com.golgan.toduo.modules.users.mappers.UserMapper;
 import com.golgan.toduo.modules.users.models.UserEntity;
 import com.golgan.toduo.modules.users.services.UserService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,20 +27,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1/tasks")
+@RequiredArgsConstructor
 public class TaskController {
 
     private final TaskService service;
     private final TaskMapper mapper;
 
-    private final UserService userService;
     private final UserMapper userMapper;
-
-    public TaskController(TaskService TaskService, UserService userService, TaskMapper mapper, UserMapper userMapper) {
-        this.service = TaskService;
-        this.userService = userService;
-        this.mapper = mapper;
-        this.userMapper = userMapper;
-    }
+    
 
 
     // * ======================== READ ========================
@@ -76,7 +71,7 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     public List<UserSummaryDto> getUsersByTaskId(@PathVariable Long id) {
         TaskEntity task = service.findById(id);
-        List<UserEntity> users = userService.findAllByTask(task);
+        List<UserEntity> users = service.findUsersByTask(task);
 
         return users.stream().map(userMapper::toSummaryDto).toList();
     }

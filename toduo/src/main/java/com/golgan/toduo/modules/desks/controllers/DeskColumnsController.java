@@ -6,6 +6,9 @@ import com.golgan.toduo.modules.desks.mappers.DeskColumnMapper;
 import com.golgan.toduo.modules.desks.models.DeskColumnEntity;
 import com.golgan.toduo.modules.desks.services.DeskColumnService;
 
+import com.golgan.toduo.modules.tasks.dto.TaskSummaryDto;
+import com.golgan.toduo.modules.tasks.mappers.TaskMapper;
+import com.golgan.toduo.modules.tasks.models.TaskEntity;
 import jakarta.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
@@ -31,6 +34,7 @@ public class DeskColumnsController {
     private final DeskColumnService deskColumnService;
     private final DeskColumnMapper deskColumnMapper;
 
+    private final TaskMapper taskMapper;
 
     // * ======================== READ ========================
     @GetMapping
@@ -55,6 +59,15 @@ public class DeskColumnsController {
         DeskColumnEntity column = deskColumnService.findById(deskId, id);
 
         return deskColumnMapper.toDetailDto(column);
+    }
+
+
+    @GetMapping("/{id}/tasks")
+    @ResponseStatus(HttpStatus.OK)
+    public PagedModel<TaskSummaryDto> getTasksById(@PathVariable Long deskId, @PathVariable Long id, @PageableDefault(size = 20, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        Page<TaskEntity> tasks = deskColumnService.getTasksByColumnId(deskId, id, pageable);
+
+        return new PagedModel<>(tasks.map(taskMapper::toSummaryDto));
     }
 
 

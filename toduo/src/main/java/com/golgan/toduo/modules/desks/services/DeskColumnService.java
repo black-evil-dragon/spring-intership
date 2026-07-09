@@ -7,7 +7,9 @@ import com.golgan.toduo.modules.desks.mappers.DeskColumnMapper;
 import com.golgan.toduo.modules.desks.models.DeskColumnEntity;
 import com.golgan.toduo.modules.desks.models.DeskEntity;
 import com.golgan.toduo.modules.desks.repositories.DeskColumnRepository;
+import com.golgan.toduo.modules.tasks.dto.TaskSummaryDto;
 import com.golgan.toduo.modules.tasks.models.TaskEntity;
+import com.golgan.toduo.modules.tasks.repositories.TaskRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,6 +30,8 @@ public class DeskColumnService {
     private final DeskService deskService;
     private final DeskColumnMapper mapper;
     private final DeskColumnRepository repository;
+
+    private final TaskRepository taskRepository;
 
 
     // * ======================== READ ========================
@@ -52,6 +56,18 @@ public class DeskColumnService {
 
         return repository.findAllByDeskIdOrderByPositionAsc(deskId);
     }
+
+
+    @Transactional(readOnly = true)
+    public Page<TaskEntity> getTasksByColumnId(Long deskId, Long columnId, Pageable pageable) {
+        DeskColumnEntity column = getByIdOrNotFound(columnId);
+        checkColumnByDeskId(column, deskId);
+
+
+        return taskRepository.findByColumnId(columnId, pageable);
+    }
+
+
 
 
     // * ======================== CREATE ========================

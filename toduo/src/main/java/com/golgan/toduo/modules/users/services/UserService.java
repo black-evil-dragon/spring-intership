@@ -40,15 +40,7 @@ public class UserService extends CRUDService<UserEntity, UserRepository, Long> {
     public UserEntity getByEmail(String email) {
         return getOrNotFound(repository.findByEmail(email));
     }
-
-
-    @Transactional(readOnly = true)
-    public List<UserEntity> findAllByTask(TaskEntity task) {
-        return Stream.of(task.getAuthor(), task.getAssignee())
-            .filter(Objects::nonNull)
-            .distinct()
-            .toList();
-    }
+    
 
 
     // * ======================== CREATE ========================

@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 
 @Service
@@ -41,6 +44,17 @@ public class TaskService extends CRUDService<TaskEntity, TaskRepository, Long> {
     public Page<TaskEntity> getFiltered(TaskStatus status, Pageable pageable) {
         return repository.findByStatus(status, pageable);
     }
+
+
+    @Transactional(readOnly = true)
+    public List<UserEntity> findUsersByTask(TaskEntity task) {
+        return Stream.of(task.getAuthor(), task.getAssignee())
+            .filter(Objects::nonNull)
+            .distinct()
+            .toList();
+    }
+
+
 
     // * ======================== CREATE ========================
     @Transactional
