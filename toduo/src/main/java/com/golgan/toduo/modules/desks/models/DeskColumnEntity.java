@@ -2,13 +2,9 @@ package com.golgan.toduo.modules.desks.models;
 
 
 
-import com.golgan.toduo.modules.tasks.models.TaskEntity;
 import jakarta.persistence.*;
 
 import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Entity
@@ -35,7 +31,7 @@ public class DeskColumnEntity {
     @Setter
     @Getter
     @Column(nullable = false)
-    private Integer sort;
+    private Integer position;
 
     @Setter
     @Getter

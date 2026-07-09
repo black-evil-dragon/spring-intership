@@ -1,22 +1,15 @@
 info:
-  name: Update desk by id
+  name: Delete desk by id
   type: http
-  seq: 4
+  seq: 1
 
 http:
-  method: PATCH
+  method: DELETE
   url: "{{base_url}}/api/v1/desks/:deskId"
   params:
     - name: deskId
-      value: "2"
+      value: "1"
       type: path
-  body:
-    type: json
-    data: |-
-      {
-        "name": "Практика",
-        "ownerId": 1
-      }
   auth: inherit
 
 settings:

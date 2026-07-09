@@ -1,0 +1,28 @@
+info:
+  name: Update desk by id
+  type: http
+  seq: 4
+
+http:
+  method: PATCH
+  url: "{{base_url}}/api/v1/desks/:deskId/columns/:columnId"
+  params:
+    - name: columnId
+      value: "1"
+      type: path
+    - name: deskId
+      value: "2"
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "newPosition": -1
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

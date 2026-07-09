@@ -10,7 +10,7 @@ import java.util.List;
 public record DeskColumnDetailDto(
     Long id,
     String name,
-    Integer sort,
+    Integer position,
 
     List<TaskSummaryDto> tasks
 ) {

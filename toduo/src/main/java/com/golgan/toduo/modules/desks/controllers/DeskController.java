@@ -8,18 +8,9 @@ import com.golgan.toduo.modules.desks.dto.DeskUpdateDto;
 import com.golgan.toduo.modules.desks.mappers.DeskMapper;
 import com.golgan.toduo.modules.desks.models.DeskEntity;
 import com.golgan.toduo.modules.desks.services.DeskService;
-import com.golgan.toduo.modules.tasks.dto.TaskCreateDto;
-import com.golgan.toduo.modules.tasks.dto.TaskDetailDto;
-import com.golgan.toduo.modules.tasks.dto.TaskSummaryDto;
-import com.golgan.toduo.modules.tasks.dto.TaskUpdateDto;
-import com.golgan.toduo.modules.tasks.mappers.TaskMapper;
-import com.golgan.toduo.modules.tasks.models.TaskEntity;
-import com.golgan.toduo.modules.tasks.models.TaskStatus;
-import com.golgan.toduo.modules.users.dto.UserSummaryDto;
-import com.golgan.toduo.modules.users.mappers.UserMapper;
-import com.golgan.toduo.modules.users.models.UserEntity;
-import com.golgan.toduo.modules.users.services.UserService;
+
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -28,19 +19,15 @@ import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1/desks")
+@RequiredArgsConstructor
 public class DeskController {
 
     private final DeskService deskService;
     private final DeskMapper deskMapper;
 
-    public DeskController(DeskService deskService, DeskMapper deskMapper) {
-        this.deskService = deskService;
-        this.deskMapper = deskMapper;
-    }
 
 
     // * ======================== READ ========================
@@ -63,6 +50,7 @@ public class DeskController {
 
         return deskMapper.toDetailDto(desk);
     }
+
 
 
     // * ======================== CREATE ========================

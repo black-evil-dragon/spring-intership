@@ -1,0 +1,25 @@
+info:
+  name: Create column by desk id
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/api/v1/desks/:deskId/columns"
+  params:
+    - name: deskId
+      value: "2"
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Планы"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
