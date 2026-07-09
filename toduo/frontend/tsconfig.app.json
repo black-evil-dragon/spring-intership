@@ -20,7 +20,32 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* For FSD imports, i really like it */
+    "paths": {
+      "@app/*": [
+        "./src/app/*"
+      ],
+      "@shared/*": [
+        "./src/shared/*"
+      ],
+      "@entities/*": [
+        "./src/entities/*"
+      ],
+      "@features/*": [
+        "./src/features/*"
+      ],
+      "@widgets/*": [
+        "./src/widgets/*"
+      ],
+      "@pages/*": [
+        "./src/pages/*"
+      ],
+      "@styles/*": [
+        "./src/app/styles/*"
+      ]
+    },
   },
   "include": ["src"]
 }
