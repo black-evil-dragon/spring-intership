@@ -17,7 +17,7 @@ http:
     type: json
     data: |-
       {
-        "newPosition": -1
+        "newPosition": 2
       }
   auth: inherit
 

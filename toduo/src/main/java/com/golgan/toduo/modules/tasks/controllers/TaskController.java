@@ -11,7 +11,6 @@ import com.golgan.toduo.modules.tasks.services.TaskService;
 import com.golgan.toduo.modules.users.dto.UserSummaryDto;
 import com.golgan.toduo.modules.users.mappers.UserMapper;
 import com.golgan.toduo.modules.users.models.UserEntity;
-import com.golgan.toduo.modules.users.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -34,7 +33,7 @@ public class TaskController {
     private final TaskMapper mapper;
 
     private final UserMapper userMapper;
-    
+
 
 
     // * ======================== READ ========================

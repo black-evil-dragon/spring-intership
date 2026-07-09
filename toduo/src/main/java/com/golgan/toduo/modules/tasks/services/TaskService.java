@@ -1,6 +1,5 @@
 package com.golgan.toduo.modules.tasks.services;
 
-import com.golgan.toduo.core.services.CRUDService;
 import com.golgan.toduo.modules.desks.services.DeskColumnService;
 import com.golgan.toduo.modules.tasks.dto.TaskCreateDto;
 import com.golgan.toduo.modules.tasks.dto.TaskUpdateDto;
@@ -11,11 +10,14 @@ import com.golgan.toduo.modules.tasks.repositories.TaskRepository;
 import com.golgan.toduo.modules.users.models.UserEntity;
 import com.golgan.toduo.modules.users.services.UserService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Objects;
@@ -23,23 +25,30 @@ import java.util.stream.Stream;
 
 
 @Service
-public class TaskService extends CRUDService<TaskEntity, TaskRepository, Long> {
+@RequiredArgsConstructor
+public class TaskService {
+
+
+    private final TaskRepository repository;
+    private final TaskMapper mapper;
 
     private final UserService userService;
-    private final TaskMapper mapper;
 
     private final DeskColumnService deskColumnService;
 
 
-    public TaskService(UserService userService, TaskRepository repository, TaskMapper mapper, DeskColumnService deskColumnService) {
-        super(repository);
-        this.userService = userService;
-        this.mapper = mapper;
-        this.deskColumnService = deskColumnService;
-    }
-
 
     // * ======================== READ ========================
+    @Transactional(readOnly = true)
+    public TaskEntity findById(Long id) {
+        return getTaskOrNotFound(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<TaskEntity> findAll(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
+
     @Transactional(readOnly = true)
     public Page<TaskEntity> getFiltered(TaskStatus status, Pageable pageable) {
         return repository.findByStatus(status, pageable);
@@ -81,7 +90,7 @@ public class TaskService extends CRUDService<TaskEntity, TaskRepository, Long> {
     @Transactional
     public TaskEntity update(Long id, @Valid @RequestBody TaskUpdateDto updateDto) {
         // Получение задачи
-        TaskEntity task = getOrNotFound(repository.findById(id).orElse(null));
+        TaskEntity task = getTaskOrNotFound(id);
 
 
         // Обновление совподающих полей
@@ -101,6 +110,13 @@ public class TaskService extends CRUDService<TaskEntity, TaskRepository, Long> {
         return repository.save(task);
     }
 
+    // * ======================== DELETE ========================
+    public void deleteById(Long id) {
+        TaskEntity task = getTaskOrNotFound(id);
+
+        repository.delete(task);
+    }
+
 
     // * ======================== UTILS ========================
 
@@ -115,4 +131,23 @@ public class TaskService extends CRUDService<TaskEntity, TaskRepository, Long> {
 
         task.setAssignee(user);
     }
+
+
+    public TaskEntity getTaskOrNotFound(TaskEntity entity) {
+        if (entity == null) {
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Задача не найдена"
+            );
+        }
+        return entity;
+    }
+
+    public TaskEntity getTaskOrNotFound(Long id) {
+        TaskEntity entity = repository.findById(id).orElse(null);
+
+        return getTaskOrNotFound(entity);
+    }
+
+
+
 }

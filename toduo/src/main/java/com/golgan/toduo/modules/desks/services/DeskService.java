@@ -1,7 +1,6 @@
 package com.golgan.toduo.modules.desks.services;
 
 
-import com.golgan.toduo.core.services.CRUDService;
 import com.golgan.toduo.modules.desks.dto.DeskCreateDto;
 import com.golgan.toduo.modules.desks.dto.DeskUpdateDto;
 import com.golgan.toduo.modules.desks.mappers.DeskMapper;
@@ -11,31 +10,36 @@ import com.golgan.toduo.modules.users.models.UserEntity;
 import com.golgan.toduo.modules.users.services.UserService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @Service
-public class DeskService extends CRUDService<DeskEntity, DeskRepository, Long> {
+@RequiredArgsConstructor
+public class DeskService {
 
     private final DeskMapper mapper;
+    private final DeskRepository repository;
 
     private final UserService userService;
 
 
+    // * ======================== READ ========================
+    public Page<DeskEntity> findAll(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
 
-    protected DeskService(
-        DeskRepository repository,
-        DeskMapper mapper,
-        UserService userService
-    ) {
-        super(repository);
-
-        this.mapper = mapper;
-        this.userService = userService;
+    public DeskEntity findById(Long id) {
+        return getDeskOrNotFound(id);
     }
 
 
+    // * ======================== CREATE ========================
     @Transactional
     public DeskEntity create(@Valid @RequestBody DeskCreateDto createDto) {
         DeskEntity desk = mapper.toEntity(createDto);
@@ -46,9 +50,10 @@ public class DeskService extends CRUDService<DeskEntity, DeskRepository, Long> {
     }
 
 
+    // * ======================== UPDATE ========================
     @Transactional
     public DeskEntity update(Long id, @Valid @RequestBody DeskUpdateDto updateDto) {
-        DeskEntity desk = getByIdOrNotFound(id);
+        DeskEntity desk = getDeskOrNotFound(id);
 
         mapper.update(updateDto, desk);
 
@@ -60,10 +65,35 @@ public class DeskService extends CRUDService<DeskEntity, DeskRepository, Long> {
         return repository.save(desk);
     }
 
+
+    // * ======================== DELETE ========================
+    public void deleteById(Long id) {
+    }
+
+
     // * ======================== UTILS ========================
     public void setOwnerByUserId(Long userId, DeskEntity desk) {
         UserEntity user = userService.getUserOrNotFound(userId);
 
         desk.setOwner(user);
     }
+
+
+    public DeskEntity getDeskOrNotFound(DeskEntity entity) {
+        if (entity == null) {
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Доска не найдена"
+            );
+        }
+        return entity;
+    }
+
+    public DeskEntity getDeskOrNotFound(Long id) {
+        DeskEntity entity = repository.findById(id).orElse(null);
+
+        return getDeskOrNotFound(entity);
+    }
+
+
+
 }
