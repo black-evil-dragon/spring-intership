@@ -3,6 +3,8 @@ package com.golgan.toduo.modules.users.services;
 import com.golgan.toduo.core.services.PasswordService;
 import com.golgan.toduo.modules.users.dto.UserCreateDto;
 import com.golgan.toduo.modules.users.dto.UserUpdateDto;
+import com.golgan.toduo.modules.users.exceptions.EmailAlreadyExistException;
+import com.golgan.toduo.modules.users.exceptions.UserNotFoundException;
 import com.golgan.toduo.modules.users.mappers.UserMapper;
 import com.golgan.toduo.modules.users.models.UserEntity;
 import com.golgan.toduo.modules.users.repositories.UserRepository;
@@ -55,9 +57,7 @@ public class UserService {
     @Transactional
     public UserEntity create(@Valid @RequestBody UserCreateDto createDto) {
         if (repository.existsByEmail(createDto.email())) {
-            throw new ResponseStatusException(
-                HttpStatus.BAD_REQUEST, "Пользователь уже существует"
-            );
+            throw new EmailAlreadyExistException();
         }
         UserEntity newUser = mapper.toEntity(createDto);
 
@@ -94,9 +94,7 @@ public class UserService {
     // * ======================== UTILS ========================
     public UserEntity getUserOrNotFound(UserEntity entity) {
         if (entity == null) {
-            throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Пользователь не найден"
-            );
+            throw new UserNotFoundException();
         }
         return entity;
     }

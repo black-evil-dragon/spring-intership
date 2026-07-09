@@ -168,7 +168,7 @@ public class DeskColumnService {
 
     // * ======================== UTILS ========================
     public void addTask(TaskEntity task, Long deskId, Long columnId) {
-        DeskEntity desk = deskService.findById(deskId);
+        deskService.findById(deskId);
 
         DeskColumnEntity column;
 
