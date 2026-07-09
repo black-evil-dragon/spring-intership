@@ -1,4 +1,4 @@
-import type { TaskList } from "@entities/task";
+import type { TaskSummary } from "@entities/task";
 
 
 export interface DeskColumn {
@@ -8,7 +8,7 @@ export interface DeskColumn {
 
     position: number,
 
-    tasks: TaskList[]
+    tasks: TaskSummary[]
 }
 
 export interface DeskColumnSummary {
