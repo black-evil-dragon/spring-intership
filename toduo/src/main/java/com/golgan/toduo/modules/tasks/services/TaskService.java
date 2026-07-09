@@ -3,6 +3,7 @@ package com.golgan.toduo.modules.tasks.services;
 import com.golgan.toduo.modules.desks.services.DeskColumnService;
 import com.golgan.toduo.modules.tasks.dto.TaskCreateDto;
 import com.golgan.toduo.modules.tasks.dto.TaskUpdateDto;
+import com.golgan.toduo.modules.tasks.exceptions.TaskNotFoundException;
 import com.golgan.toduo.modules.tasks.mappers.TaskMapper;
 import com.golgan.toduo.modules.tasks.models.TaskEntity;
 import com.golgan.toduo.modules.tasks.models.TaskStatus;
@@ -13,11 +14,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Objects;
@@ -135,9 +134,7 @@ public class TaskService {
 
     public TaskEntity getTaskOrNotFound(TaskEntity entity) {
         if (entity == null) {
-            throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Задача не найдена"
-            );
+            throw new TaskNotFoundException();
         }
         return entity;
     }

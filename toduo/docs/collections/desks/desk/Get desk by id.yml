@@ -8,7 +8,7 @@ http:
   url: "{{base_url}}/api/v1/desks/:deskId"
   params:
     - name: deskId
-      value: "2"
+      value: "1"
       type: path
   auth: inherit
 

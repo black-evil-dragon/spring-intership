@@ -3,21 +3,20 @@ package com.golgan.toduo.modules.desks.services;
 
 import com.golgan.toduo.modules.desks.dto.DeskColumnCreateDto;
 import com.golgan.toduo.modules.desks.dto.DeskColumnUpdateDto;
+import com.golgan.toduo.modules.desks.exceptions.ColumnMissMatchException;
+import com.golgan.toduo.modules.desks.exceptions.ColumnNotFoundException;
 import com.golgan.toduo.modules.desks.mappers.DeskColumnMapper;
 import com.golgan.toduo.modules.desks.models.DeskColumnEntity;
 import com.golgan.toduo.modules.desks.models.DeskEntity;
 import com.golgan.toduo.modules.desks.repositories.DeskColumnRepository;
-import com.golgan.toduo.modules.tasks.dto.TaskSummaryDto;
 import com.golgan.toduo.modules.tasks.models.TaskEntity;
 import com.golgan.toduo.modules.tasks.repositories.TaskRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -197,9 +196,7 @@ public class DeskColumnService {
     // * ======================== UTILS ========================
     public void checkColumnByDeskId(DeskColumnEntity column, Long deskId) {
         if (!column.getDesk().getId().equals(deskId)) {
-            throw new ResponseStatusException(
-                HttpStatus.BAD_REQUEST, "Колонка не принадлежит этой доске"
-            );
+            throw new ColumnMissMatchException();
         }
     }
 
@@ -207,9 +204,7 @@ public class DeskColumnService {
         DeskColumnEntity entity = repository.findById(id).orElse(null);
 
         if (entity == null) {
-            throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Колонка не найдена"
-            );
+            throw new ColumnNotFoundException();
         }
         return entity;
     }

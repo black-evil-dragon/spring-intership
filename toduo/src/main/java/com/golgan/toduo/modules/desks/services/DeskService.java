@@ -3,6 +3,7 @@ package com.golgan.toduo.modules.desks.services;
 
 import com.golgan.toduo.modules.desks.dto.DeskCreateDto;
 import com.golgan.toduo.modules.desks.dto.DeskUpdateDto;
+import com.golgan.toduo.modules.desks.exceptions.DeskNotFoundException;
 import com.golgan.toduo.modules.desks.mappers.DeskMapper;
 import com.golgan.toduo.modules.desks.models.DeskEntity;
 import com.golgan.toduo.modules.desks.repositories.DeskRepository;
@@ -13,10 +14,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.server.ResponseStatusException;
 
 
 @Service
@@ -81,9 +80,7 @@ public class DeskService {
 
     public DeskEntity getDeskOrNotFound(DeskEntity entity) {
         if (entity == null) {
-            throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Доска не найдена"
-            );
+            throw new DeskNotFoundException();
         }
         return entity;
     }
