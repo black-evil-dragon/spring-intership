@@ -16,6 +16,9 @@ import java.util.List;
 public class DeskEntity extends AuditableEntity {
 
     @Id
+    @Setter
+    @Getter
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "desk_seq")
     @SequenceGenerator(name = "desk_seq", sequenceName = "desk_id_seq", allocationSize = 5)
     private Long id;
@@ -35,7 +38,7 @@ public class DeskEntity extends AuditableEntity {
     @Setter
     @Getter
     @OneToMany(mappedBy = "desk", cascade = CascadeType.ALL)
-    @OrderBy("sort ASC")
+    @OrderBy("position ASC")
     @Builder.Default
     private List<DeskColumnEntity> columns = new ArrayList<>();
 

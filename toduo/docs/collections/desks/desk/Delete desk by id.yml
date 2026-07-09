@@ -1,0 +1,19 @@
+info:
+  name: Delete desk by id
+  type: http
+  seq: 1
+
+http:
+  method: DELETE
+  url: "{{base_url}}/api/v1/desks/:deskId"
+  params:
+    - name: deskId
+      value: "1"
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

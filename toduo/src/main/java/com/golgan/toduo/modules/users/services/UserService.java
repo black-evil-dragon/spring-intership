@@ -3,55 +3,61 @@ package com.golgan.toduo.modules.users.services;
 import com.golgan.toduo.core.services.PasswordService;
 import com.golgan.toduo.modules.users.dto.UserCreateDto;
 import com.golgan.toduo.modules.users.dto.UserUpdateDto;
+import com.golgan.toduo.modules.users.exceptions.EmailAlreadyExistException;
+import com.golgan.toduo.modules.users.exceptions.UserNotFoundException;
 import com.golgan.toduo.modules.users.mappers.UserMapper;
 import com.golgan.toduo.modules.users.models.UserEntity;
 import com.golgan.toduo.modules.users.repositories.UserRepository;
-
-
-import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository repository;
     private final UserMapper mapper;
-
     private final PasswordService passwordService;
-
-    public UserService(UserRepository repository, UserMapper mapper, PasswordService passwordService) {
-        this.repository = repository;
-        this.mapper = mapper;
-        this.passwordService = passwordService;
-    }
 
 
     // * ======================== READ ========================
-    @Transactional
-    public Page<UserEntity> getAll(Pageable pageable) {
+    @Transactional(readOnly = true)
+    public UserEntity getByEmail(String email) {
+        return getUserOrNotFound(repository.findByEmail(email));
+    }
+
+
+    @Transactional(readOnly = true)
+    public UserEntity findById(Long id) {
+        return getUserOrNotFound(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<UserEntity> findAll(Pageable pageable) {
         return repository.findAll(pageable);
     }
 
-    @Transactional
-    public UserEntity getById(Long id) {
-        return getOrNotFound(repository.findById(id).orElse(null));
+    @Transactional(readOnly = true)
+    public List<UserEntity> findAll() {
+        return repository.findAll();
     }
 
 
     // * ======================== CREATE ========================
     @Transactional
-    public UserEntity create(UserCreateDto createDto) {
+    public UserEntity create(@Valid @RequestBody UserCreateDto createDto) {
         if (repository.existsByEmail(createDto.email())) {
-            throw new ResponseStatusException(
-                HttpStatus.BAD_REQUEST, "Пользователь уже существует"
-            );
+            throw new EmailAlreadyExistException();
         }
         UserEntity newUser = mapper.toEntity(createDto);
 
@@ -65,8 +71,8 @@ public class UserService {
 
     // * ======================== UPDATE ========================
     @Transactional
-    public UserEntity update(Long id, UserUpdateDto updateDto) {
-        UserEntity user = getOrNotFound(repository.findById(id).orElse(null));
+    public UserEntity update(Long id, @Valid @RequestBody UserUpdateDto updateDto) {
+        UserEntity user = getUserOrNotFound(id);
 
         mapper.update(updateDto, user);
 
@@ -74,25 +80,28 @@ public class UserService {
     }
 
 
-    // * ======================== DELETE ========================
-    @Transactional
-    public void delete(Long id) {
-        UserEntity user = getOrNotFound(repository.findById(id).orElse(null));
 
-        repository.delete(user);
+    // * ======================== UTILS ========================
+    @Transactional
+    public void deleteById(Long id) {
+        UserEntity entity = getUserOrNotFound(id);
+
+        repository.delete(entity);
     }
 
 
 
     // * ======================== UTILS ========================
-    public UserEntity getOrNotFound(UserEntity entity) {
+    public UserEntity getUserOrNotFound(UserEntity entity) {
         if (entity == null) {
-            throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Пользователь не найден"
-            );
+            throw new UserNotFoundException();
         }
         return entity;
+    }
 
+    public UserEntity getUserOrNotFound(Long id) {
+        UserEntity entity = repository.findById(id).orElse(null);
 
+        return getUserOrNotFound(entity);
     }
 }

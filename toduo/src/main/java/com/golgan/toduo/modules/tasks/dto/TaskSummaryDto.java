@@ -6,9 +6,10 @@ import com.golgan.toduo.modules.users.dto.UserSummaryDto;
 public record TaskSummaryDto(
     Long id,
 
+    Long columnId,
+
     String name,
     TaskStatus status,
-    Integer sort,
 
     UserSummaryDto assignee,
     UserSummaryDto author
