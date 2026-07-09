@@ -9,10 +9,9 @@ import com.golgan.toduo.modules.desks.mappers.DeskMapper;
 import com.golgan.toduo.modules.desks.models.DeskEntity;
 import com.golgan.toduo.modules.desks.services.DeskService;
 
-import com.golgan.toduo.modules.tasks.dto.TaskSummaryDto;
-import com.golgan.toduo.modules.tasks.services.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -29,8 +28,6 @@ public class DeskController {
 
     private final DeskService deskService;
     private final DeskMapper deskMapper;
-
-    private final TaskService taskService;
 
 
 

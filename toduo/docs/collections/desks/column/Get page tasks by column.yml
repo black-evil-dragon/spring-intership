@@ -8,10 +8,10 @@ http:
   url: "{{base_url}}/api/v1/desks/:deskId/columns/:columnId/tasks"
   params:
     - name: columnId
-      value: "12"
+      value: "1"
       type: path
     - name: deskId
-      value: "1"
+      value: "2"
       type: path
   auth: inherit
 

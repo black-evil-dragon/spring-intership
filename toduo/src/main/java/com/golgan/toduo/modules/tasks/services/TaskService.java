@@ -105,13 +105,13 @@ public class TaskService extends CRUDService<TaskEntity, TaskRepository, Long> {
     // * ======================== UTILS ========================
 
     public void setAuthorByUserId(Long userId, TaskEntity task) {
-        UserEntity user = userService.getOrNotFound(userService.findById(userId), "Постановщик");
+        UserEntity user = userService.getUserOrNotFound(userId);
 
         task.setAuthor(user);
     }
 
     public void addAssigneeByUserId(Long userId, TaskEntity task) {
-        UserEntity user = userService.getOrNotFound(userService.findById(userId), "Исполнитель");
+        UserEntity user = userService.getUserOrNotFound(userId);
 
         task.setAssignee(user);
     }

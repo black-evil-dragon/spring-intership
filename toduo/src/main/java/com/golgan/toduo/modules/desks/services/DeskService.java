@@ -62,7 +62,7 @@ public class DeskService extends CRUDService<DeskEntity, DeskRepository, Long> {
 
     // * ======================== UTILS ========================
     public void setOwnerByUserId(Long userId, DeskEntity desk) {
-        UserEntity user = userService.getByIdOrNotFound(userId, "Пользователь");
+        UserEntity user = userService.getUserOrNotFound(userId);
 
         desk.setOwner(user);
     }
