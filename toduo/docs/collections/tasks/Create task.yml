@@ -1,0 +1,25 @@
+info:
+  name: Create task
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/api/v1/tasks"
+  body:
+    type: json
+    data: |-
+      {
+        "deskId": 2,
+        "name": "Разработать сервис Задачи 2",
+        "status": "await_work",
+        "description": "Разработать сервис Задачи. Приложение должно иметь круд операции",
+        "authorId": 1
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

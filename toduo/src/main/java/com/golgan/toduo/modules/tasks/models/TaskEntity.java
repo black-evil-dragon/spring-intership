@@ -29,6 +29,9 @@ import java.time.Instant;
 public class TaskEntity extends AuditableEntity {
 
     @Id
+    @Setter
+    @Getter
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_seq")
     @SequenceGenerator(name = "task_seq", sequenceName = "task_id_seq", allocationSize = 50)
     private Long id;

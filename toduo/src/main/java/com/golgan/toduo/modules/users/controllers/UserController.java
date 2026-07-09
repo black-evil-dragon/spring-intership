@@ -1,20 +1,20 @@
 package com.golgan.toduo.modules.users.controllers;
 
-import com.golgan.toduo.modules.users.dto.*;
+import com.golgan.toduo.modules.users.dto.UserCreateDto;
+import com.golgan.toduo.modules.users.dto.UserDetailDto;
+import com.golgan.toduo.modules.users.dto.UserSummaryDto;
+import com.golgan.toduo.modules.users.dto.UserUpdateDto;
 import com.golgan.toduo.modules.users.mappers.UserMapper;
 import com.golgan.toduo.modules.users.models.UserEntity;
 import com.golgan.toduo.modules.users.services.UserService;
-
 import jakarta.validation.Valid;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1/users")
@@ -32,10 +32,10 @@ public class UserController {
     // * ======================== READ ========================
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Page<UserSummaryDto> getAll(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
-        Page<UserEntity> users = service.getAll(pageable);
+    public PagedModel<UserSummaryDto> getAll(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        Page<UserEntity> users = service.findAll(pageable);
 
-        return users.map(mapper::toSummaryDto);
+        return new PagedModel<>(users.map(mapper::toSummaryDto));
     }
 
 
@@ -43,7 +43,7 @@ public class UserController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UserDetailDto getById(@PathVariable Long id) {
-        UserEntity user = service.getById(id);
+        UserEntity user = service.findById(id);
 
         return mapper.toDetailDto(user);
     }
@@ -75,6 +75,6 @@ public class UserController {
     // * ======================== DELETE ========================
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        service.delete(id);
+        service.deleteById(id);
     }
 }
