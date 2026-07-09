@@ -1,0 +1,61 @@
+CREATE SEQUENCE  IF NOT EXISTS column_id_seq START WITH 1 INCREMENT BY 10;
+
+CREATE SEQUENCE  IF NOT EXISTS desk_id_seq START WITH 1 INCREMENT BY 5;
+
+CREATE SEQUENCE  IF NOT EXISTS task_id_seq START WITH 1 INCREMENT BY 50;
+
+CREATE SEQUENCE  IF NOT EXISTS user_id_seq START WITH 1 INCREMENT BY 1;
+
+CREATE TABLE desk_columns (
+  id BIGINT NOT NULL,
+   name VARCHAR(50) NOT NULL,
+   position INTEGER NOT NULL,
+   desk_id BIGINT NOT NULL,
+   CONSTRAINT pk_desk_columns PRIMARY KEY (id)
+);
+
+CREATE TABLE desks (
+  id BIGINT NOT NULL,
+   created_at TIMESTAMP with time zone NOT NULL,
+   updated_at TIMESTAMP with time zone NOT NULL,
+   name VARCHAR(100) NOT NULL,
+   owner_id BIGINT NOT NULL,
+   CONSTRAINT pk_desks PRIMARY KEY (id)
+);
+
+CREATE TABLE tasks (
+  id BIGINT NOT NULL,
+   created_at TIMESTAMP with time zone NOT NULL,
+   updated_at TIMESTAMP with time zone NOT NULL,
+   name VARCHAR(255) NOT NULL,
+   description VARCHAR(255),
+   status SMALLINT NOT NULL,
+   deadline TIMESTAMP with time zone,
+   author_id BIGINT NOT NULL,
+   assignee_id BIGINT,
+   column_id BIGINT NOT NULL,
+   CONSTRAINT pk_tasks PRIMARY KEY (id)
+);
+
+CREATE TABLE users (
+  id BIGINT NOT NULL,
+   created_at TIMESTAMP with time zone NOT NULL,
+   updated_at TIMESTAMP with time zone NOT NULL,
+   email VARCHAR(255) NOT NULL,
+   password VARCHAR(255) NOT NULL,
+   first_name VARCHAR(255) NOT NULL,
+   last_name VARCHAR(255) NOT NULL,
+   CONSTRAINT pk_users PRIMARY KEY (id)
+);
+
+ALTER TABLE users ADD CONSTRAINT UC_USERS_EMAIL UNIQUE (email);
+
+ALTER TABLE desks ADD CONSTRAINT FK_DESKS_ON_OWNER FOREIGN KEY (owner_id) REFERENCES users (id);
+
+ALTER TABLE desk_columns ADD CONSTRAINT FK_DESK_COLUMNS_ON_DESK FOREIGN KEY (desk_id) REFERENCES desks (id);
+
+ALTER TABLE tasks ADD CONSTRAINT FK_TASKS_ON_ASSIGNEE FOREIGN KEY (assignee_id) REFERENCES users (id);
+
+ALTER TABLE tasks ADD CONSTRAINT FK_TASKS_ON_AUTHOR FOREIGN KEY (author_id) REFERENCES users (id);
+
+ALTER TABLE tasks ADD CONSTRAINT FK_TASKS_ON_COLUMN FOREIGN KEY (column_id) REFERENCES desk_columns (id);

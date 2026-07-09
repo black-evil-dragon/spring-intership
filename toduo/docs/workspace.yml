@@ -8,6 +8,8 @@ collections:
     path: "collections/users"
   - name: "tasks"
     path: "collections/tasks"
+  - name: "users"
+    path: "collections/desks"
 
 specs:
 

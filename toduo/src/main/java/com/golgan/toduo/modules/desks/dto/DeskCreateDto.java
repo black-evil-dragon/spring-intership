@@ -11,6 +11,9 @@ public record DeskCreateDto(
     @Size(min = 2, max = 100, message = "Название доски должно быть от 2 до 100 символов")
     String name,
 
+    // TODO: Мы можем прокидывать id пользователя
+    //  из сохраненной сессии
+    //  Но пока так
     @NotNull(message = "Владелец доски должен быть указан")
     Long ownerId
 ) {

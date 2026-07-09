@@ -1,0 +1,51 @@
+networks:
+  toduo-network:
+    driver: bridge
+
+#volumes:
+#  backend-maven-cache:
+
+services:
+  # * _______________________ NGINX _______________________
+  # * _____________________ ###### _________________________
+
+
+
+  # * _______________________ DATABASE POSTGRESQL _______________________
+  db:
+    container_name: toduo_db
+    hostname: toduo_db
+
+    image: postgres:18-alpine
+
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DATABASE_USER} -d ${DATABASE_NAME}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+    networks:
+      - toduo-network
+
+    ports:
+      # Проброс 5433, чтобы он не конфликтовал с локальной бд
+      - "5433:5432"
+  # * _____________________ ###### _________________________
+
+
+
+
+  # * _______________________ BACK _______________________
+  # TODO: Настроить конфиги для прод и дев сборки
+  # * _____________________ ###### _________________________
+
+
+
+
+  # * _______________________ FRONT _______________________
+  # * _____________________ ###### _________________________

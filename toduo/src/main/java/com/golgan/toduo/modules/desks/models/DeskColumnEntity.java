@@ -35,7 +35,7 @@ public class DeskColumnEntity {
     @Setter
     @Getter
     @Column(nullable = false)
-    private Integer sort;
+    private Integer position;
 
     @Setter
     @Getter
@@ -43,10 +43,10 @@ public class DeskColumnEntity {
     @JoinColumn(name = "desk_id", nullable = false)
     private DeskEntity desk;
 
-    // TODO Временно для разработки
-    // @Setter
-    // @Getter
-    // @OneToMany(mappedBy = "column", cascade = CascadeType.ALL)
-    // @Builder.Default
-    // private List<TaskEntity> tasks = new ArrayList<>();
+
+    @Setter
+    @Getter
+    @OneToMany(mappedBy = "column", cascade = CascadeType.ALL)
+    @Builder.Default
+    private List<TaskEntity> tasks = new ArrayList<>();
 }

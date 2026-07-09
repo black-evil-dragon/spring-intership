@@ -38,7 +38,7 @@ public class DeskEntity extends AuditableEntity {
     @Setter
     @Getter
     @OneToMany(mappedBy = "desk", cascade = CascadeType.ALL)
-    @OrderBy("sort ASC")
+    @OrderBy("position ASC")
     @Builder.Default
     private List<DeskColumnEntity> columns = new ArrayList<>();
 

@@ -8,42 +8,32 @@ import com.golgan.toduo.modules.tasks.mappers.TaskMapper;
 import com.golgan.toduo.modules.tasks.models.TaskEntity;
 import com.golgan.toduo.modules.tasks.models.TaskStatus;
 import com.golgan.toduo.modules.tasks.services.TaskService;
-
 import com.golgan.toduo.modules.users.dto.UserSummaryDto;
 import com.golgan.toduo.modules.users.mappers.UserMapper;
 import com.golgan.toduo.modules.users.models.UserEntity;
-import com.golgan.toduo.modules.users.services.UserService;
 import jakarta.validation.Valid;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 
 @RestController
 @RequestMapping(value = "/api/v1/tasks")
+@RequiredArgsConstructor
 public class TaskController {
 
     private final TaskService service;
     private final TaskMapper mapper;
 
-    private final UserService userService;
     private final UserMapper userMapper;
 
-    public TaskController(TaskService TaskService, UserService userService, TaskMapper mapper, UserMapper userMapper) {
-        this.service = TaskService;
-        this.userService = userService;
-        this.mapper = mapper;
-        this.userMapper = userMapper;
-    }
 
 
     // * ======================== READ ========================
@@ -62,7 +52,7 @@ public class TaskController {
         }
 
 
-        tasks = service.getAll(pageable);
+        tasks = service.findAll(pageable);
 
         return new PagedModel<>(tasks.map(mapper::toSummaryDto));
     }
@@ -71,7 +61,7 @@ public class TaskController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public TaskDetailDto getById(@PathVariable Long id) {
-        TaskEntity task = service.getById(id);
+        TaskEntity task = service.findById(id);
 
         return mapper.toDetailDto(task);
     }
@@ -79,8 +69,8 @@ public class TaskController {
     @GetMapping("/{id}/users")
     @ResponseStatus(HttpStatus.OK)
     public List<UserSummaryDto> getUsersByTaskId(@PathVariable Long id) {
-        TaskEntity task = service.getById(id);
-        List<UserEntity> users = userService.findAllByTask(task);
+        TaskEntity task = service.findById(id);
+        List<UserEntity> users = service.findUsersByTask(task);
 
         return users.stream().map(userMapper::toSummaryDto).toList();
     }
@@ -109,6 +99,6 @@ public class TaskController {
     // * ======================== DELETE ========================
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        service.delete(id);
+        service.deleteById(id);
     }
 }

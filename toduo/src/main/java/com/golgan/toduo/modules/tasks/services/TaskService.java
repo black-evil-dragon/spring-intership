@@ -1,43 +1,50 @@
 package com.golgan.toduo.modules.tasks.services;
 
+import com.golgan.toduo.modules.desks.services.DeskColumnService;
 import com.golgan.toduo.modules.tasks.dto.TaskCreateDto;
 import com.golgan.toduo.modules.tasks.dto.TaskUpdateDto;
+import com.golgan.toduo.modules.tasks.exceptions.TaskNotFoundException;
 import com.golgan.toduo.modules.tasks.mappers.TaskMapper;
 import com.golgan.toduo.modules.tasks.models.TaskEntity;
 import com.golgan.toduo.modules.tasks.models.TaskStatus;
 import com.golgan.toduo.modules.tasks.repositories.TaskRepository;
-
 import com.golgan.toduo.modules.users.models.UserEntity;
 import com.golgan.toduo.modules.users.services.UserService;
-
-
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 
 @Service
+@RequiredArgsConstructor
 public class TaskService {
 
-    private final UserService userService;
+
     private final TaskRepository repository;
     private final TaskMapper mapper;
 
+    private final UserService userService;
 
-    public TaskService(UserService userService, TaskRepository repository, TaskMapper mapper) {
-        this.userService = userService;
-        this.repository = repository;
-        this.mapper = mapper;
-    }
+    private final DeskColumnService deskColumnService;
+
 
 
     // * ======================== READ ========================
     @Transactional(readOnly = true)
-    public Page<TaskEntity> getAll(Pageable pageable) {
+    public TaskEntity findById(Long id) {
+        return getTaskOrNotFound(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<TaskEntity> findAll(Pageable pageable) {
         return repository.findAll(pageable);
     }
 
@@ -46,15 +53,20 @@ public class TaskService {
         return repository.findByStatus(status, pageable);
     }
 
+
     @Transactional(readOnly = true)
-    public TaskEntity getById(Long id) {
-        return getOrNotFound(repository.findById(id).orElse(null));
+    public List<UserEntity> findUsersByTask(TaskEntity task) {
+        return Stream.of(task.getAuthor(), task.getAssignee())
+            .filter(Objects::nonNull)
+            .distinct()
+            .toList();
     }
+
 
 
     // * ======================== CREATE ========================
     @Transactional
-    public TaskEntity create(TaskCreateDto createDto) {
+    public TaskEntity create(@Valid @RequestBody TaskCreateDto createDto) {
         // Создание задачи
         TaskEntity newTask = mapper.toEntity(createDto);
 
@@ -63,8 +75,10 @@ public class TaskService {
         setAuthorByUserId(createDto.authorId(), newTask);
 
         if (createDto.assigneeId() != null) {
-            addAssigneeByUserId(createDto.authorId(), newTask);
+            addAssigneeByUserId(createDto.assigneeId(), newTask);
         }
+
+        deskColumnService.addTask(newTask, createDto.deskId(), createDto.columnId());
 
 
         return repository.save(newTask);
@@ -73,9 +87,9 @@ public class TaskService {
 
     // * ======================== UPDATE ========================
     @Transactional
-    public TaskEntity update(Long id, TaskUpdateDto updateDto) {
+    public TaskEntity update(Long id, @Valid @RequestBody TaskUpdateDto updateDto) {
         // Получение задачи
-        TaskEntity task = getOrNotFound(repository.findById(id).orElse(null));
+        TaskEntity task = getTaskOrNotFound(id);
 
 
         // Обновление совподающих полей
@@ -95,37 +109,42 @@ public class TaskService {
         return repository.save(task);
     }
 
-
     // * ======================== DELETE ========================
-    @Transactional
-    public void delete(Long id) {
-        TaskEntity Task = getOrNotFound(repository.findById(id).orElse(null));
+    public void deleteById(Long id) {
+        TaskEntity task = getTaskOrNotFound(id);
 
-        repository.delete(Task);
+        repository.delete(task);
     }
-
 
 
     // * ======================== UTILS ========================
-    public TaskEntity getOrNotFound(TaskEntity entity) {
-        if (entity == null) {
-            throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Задача не найдена"
-            );
-        }
-        return entity;
-    }
-
 
     public void setAuthorByUserId(Long userId, TaskEntity task) {
-        UserEntity user = userService.getOrNotFound(userService.getById(userId), "Постановщик");
+        UserEntity user = userService.getUserOrNotFound(userId);
 
         task.setAuthor(user);
     }
 
     public void addAssigneeByUserId(Long userId, TaskEntity task) {
-        UserEntity user = userService.getOrNotFound(userService.getById(userId), "Исполнитель");
+        UserEntity user = userService.getUserOrNotFound(userId);
 
         task.setAssignee(user);
     }
+
+
+    public TaskEntity getTaskOrNotFound(TaskEntity entity) {
+        if (entity == null) {
+            throw new TaskNotFoundException();
+        }
+        return entity;
+    }
+
+    public TaskEntity getTaskOrNotFound(Long id) {
+        TaskEntity entity = repository.findById(id).orElse(null);
+
+        return getTaskOrNotFound(entity);
+    }
+
+
+
 }
