@@ -7,30 +7,18 @@ import '@fontsource/roboto/700.css';
 
 import { Routing } from './router';
 import { ThemeProvider } from '@emotion/react';
-import { createTheme, CssBaseline } from '@mui/material';
+import { CssVarsProvider, extendTheme } from '@mui/joy/styles';
+import CssBaseline from '@mui/joy/CssBaseline';
 
-const theme = createTheme({
-  palette: {
-    mode: 'light',
-  },
-  components: {
-    MuiCssBaseline: {
-      styleOverrides: {
-        'html, body, #root': {
-          height: '100%',
-          margin: 0,
-          padding: 0,
-        },
-      },
-    },
-  },
-});
+const theme = extendTheme();
 
 export const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Routing />
+      <CssVarsProvider>
+        <CssBaseline />
+        <Routing />
+      </CssVarsProvider>
     </ThemeProvider>
   );
 };

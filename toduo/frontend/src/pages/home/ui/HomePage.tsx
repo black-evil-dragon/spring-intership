@@ -1,6 +1,7 @@
-import { Container } from '@mui/material';
 
-import { Desk } from '@entities/desk/ui/Desk';
+import { TaskCard } from '@entities/task/ui/TaskCard';
+import { mockTaskSummaries } from '@entities/task/model/mock';
+import { Container } from '@mui/joy';
 
 
 
@@ -10,7 +11,9 @@ export const HomePage = () => {
         <Container maxWidth="xl" sx={{
             height: "100%"
         }}>
-            <Desk />
+            {mockTaskSummaries().map((task, index) => (
+                <TaskCard {...task} key={index} />
+            ))}
         </Container>
     </>);
 };
