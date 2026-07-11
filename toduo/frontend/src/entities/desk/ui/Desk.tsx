@@ -11,8 +11,9 @@ export const Desk = ({ children }: DeskProps) => {
 
         <Container>
             <Stack gap={2} direction={'row'} sx={{
-                width: 'max-content',
-                overflow: 'auto'
+                width: '100%',
+                overflow: 'auto',
+                scrollbarWidth: 'thin'
             }}>
                 {children}
             </Stack>
