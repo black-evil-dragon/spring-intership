@@ -1,7 +1,7 @@
 import { mockTaskSummaries } from "@entities/task/model/mock";
-import type { DeskColumn, DeskColumnList, DeskColumnSummary } from "..";
+import type { ColumnType, ColumnList, ColumnSummary } from "..";
 
-export const mockDeskColumns: DeskColumn[] = [
+export const mockColumns: ColumnType[] = [
     {
         id: "1",
         name: "Бэклог",
@@ -23,15 +23,15 @@ export const mockDeskColumns: DeskColumn[] = [
 ];
 
 
-export function mockDeskColumnSummaries(): DeskColumnSummary[] {
-    return mockDeskColumns.map(({ id, name }) => ({
+export function mockColumnSummaries(): ColumnSummary[] {
+    return mockColumns.map(({ id, name }) => ({
         id,
         name
     }));
 }
 
-export function mockDeskColumnLists(): DeskColumnList[] {
-    return mockDeskColumns.map(({ id, name, position }) => ({
+export function mockColumnLists(): ColumnList[] {
+    return mockColumns.map(({ id, name, position }) => ({
         id,
         name,
         position

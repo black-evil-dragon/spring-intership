@@ -19,7 +19,13 @@ export const TaskCard = (taskSummary: TaskCardProps) => {
 
     const { name, author, assignee, status } = taskSummary
 
+
+
     const statusData = getStatusConfig(status)
+    const authorInitials = getUserInitials({ firstName: author.firstName, lastName: author.lastName })
+    const asigneeInitials = assignee ? getUserInitials({ firstName: assignee.firstName, lastName: assignee.lastName }) : null
+
+
 
     return (
         <Card
@@ -41,7 +47,7 @@ export const TaskCard = (taskSummary: TaskCardProps) => {
                     size="md"
                     variant="soft"
                 >
-                    {getUserInitials({ firstName: author.firstName, lastName: author.lastName })}
+                    {authorInitials}
                 </Avatar>
 
 
@@ -52,8 +58,7 @@ export const TaskCard = (taskSummary: TaskCardProps) => {
                         size="md"
                         variant="soft"
                     >
-                        {getUserInitials({ firstName: assignee.firstName, lastName: assignee.lastName })}
-
+                        {asigneeInitials}
                     </Avatar>
                 </>}
             </Stack>
