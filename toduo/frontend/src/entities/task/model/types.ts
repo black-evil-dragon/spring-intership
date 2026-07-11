@@ -1,4 +1,4 @@
-import type { DeskColumnSummary } from "@entities/desk-column";
+import type { ColumnSummary } from "@entities/column";
 import type { UserList, UserSummary } from "@entities/user";
 import type { AuditableEntity } from "@shared/types/entities";
 
@@ -6,10 +6,10 @@ import type { AuditableEntity } from "@shared/types/entities";
 export type TaskStatus = "await_work" | "await_control" | "in_work" | "completed"
 
 
-export interface TaskDetail extends AuditableEntity {
+export interface Task extends AuditableEntity {
     id: string,
 
-    column: DeskColumnSummary,
+    column: ColumnSummary,
 
     name: string,
     description: string,

@@ -1,7 +1,7 @@
 import type { TaskSummary } from "@entities/task";
 
 
-export interface DeskColumn {
+export interface ColumnType {
     id: string,
 
     name: string,
@@ -11,13 +11,13 @@ export interface DeskColumn {
     tasks: TaskSummary[]
 }
 
-export interface DeskColumnSummary {
+export interface ColumnSummary {
     id: string,
     name: string,
 }
 
 
-export interface DeskColumnList {
+export interface ColumnList {
     id: string,
     name: string,
     position: number,
