@@ -1,3 +1,3 @@
-export * from './model/types'
+export * from './types'
 
 export { TaskCard } from './ui/TaskCard'

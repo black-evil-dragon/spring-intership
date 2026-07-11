@@ -4,7 +4,7 @@ import { Box, Card, Chip, Stack, Typography } from '@mui/joy';
 import { getUserInitials } from "@entities/user";
 
 
-import type { TaskSummary } from "../model/types";
+import type { TaskSummary } from "../types";
 import { getStatusConfig } from '../model/status';
 import { ArrowForward } from '@mui/icons-material';
 

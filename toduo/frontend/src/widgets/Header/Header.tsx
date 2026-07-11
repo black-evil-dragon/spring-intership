@@ -1,7 +1,6 @@
 import {
     Avatar,
     Badge,
-    Button,
     Container,
     Divider,
     Dropdown,
@@ -14,6 +13,10 @@ import {
     Typography,
 } from '@mui/joy';
 
+
+import { NavLink } from 'react-router-dom';
+
+
 export const Header = () => {
     return (
         <>
@@ -21,6 +24,10 @@ export const Header = () => {
                 <Container sx={{ p: 2, display: 'flex', alignItems: 'center' }}>
                     {/* Navigation */}
                     <Stack direction={'row'} gap={5}>
+                        <Link component={NavLink} to={'/'} underline="none">
+                            <Typography level="h3">TO/DuO</Typography>
+                        </Link>
+
                         <Badge badgeContent={1} sx={{ px: 0.5 }}>
                             <Link>
                                 <Typography>Доски</Typography>
@@ -49,7 +56,7 @@ export const Header = () => {
                             <Menu variant="soft">
                                 <MenuItem>Профиль</MenuItem>
                                 <Divider />
-                                <MenuItem color='danger'>Выйти</MenuItem>
+                                <MenuItem color="danger">Выйти</MenuItem>
                             </Menu>
                         </Dropdown>
                     </Stack>

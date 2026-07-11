@@ -1,5 +1,5 @@
-import type { Column } from "@entities/column/model/types";
-import type { UserList } from "@entities/user/model/types";
+import type { Column } from "@entities/column/types";
+import type { UserList } from "@entities/user/types";
 import type { AuditableEntity } from "@shared/types/entities";
 
 export interface Desk extends AuditableEntity {

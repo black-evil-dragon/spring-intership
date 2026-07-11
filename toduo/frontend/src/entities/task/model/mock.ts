@@ -1,4 +1,4 @@
-import type { Task, TaskList, TaskSummary } from "./types";
+import type { Task, TaskList, TaskSummary } from "../types";
 
 
 export const mockTasks: Task[] = [
