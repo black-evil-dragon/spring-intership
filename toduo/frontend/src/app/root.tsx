@@ -3,6 +3,8 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
+import '@app/styles/base.scss';
+
 
 import { ThemeProvider } from '@emotion/react';
 import { CssVarsProvider, extendTheme } from '@mui/joy/styles';

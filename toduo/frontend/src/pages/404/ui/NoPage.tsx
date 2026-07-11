@@ -1,10 +1,9 @@
+import { Container, Typography } from "@mui/joy";
 
 export function NoPage() {
     return (
-        <div >
-            <h1 >
-                Страница не найдена
-            </h1>
-        </div>
+        <Container>
+            <Typography level="h1">Страница не найдена</Typography>
+        </Container>
     );
 }

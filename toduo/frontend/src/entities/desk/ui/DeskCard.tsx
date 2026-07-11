@@ -1,16 +1,33 @@
-import { Card, Link } from "@mui/joy";
-import type { DeskSummary } from "../types";
-import { NavLink } from "react-router-dom";
+import {
+    Avatar,
+    Button,
+    Card,
+    CardActions,
+    CardContent,
+    Divider,
+    IconButton,
+    Typography,
+} from '@mui/joy';
+import type { DeskSummary } from '../types';
+import type { ReactNode } from 'react';
 
+interface DeskCardProps extends DeskSummary {
+    actions?: ReactNode
+}
 
-interface DeskCardProps extends DeskSummary {}
-
-export const DeskCard = ({ id, name }: DeskCardProps) => {
-    return (<>
-        <Link component={NavLink} to={`/desks/${id}`} overlay>
+export const DeskCard = ({ name, actions }: DeskCardProps) => {
+    return (
+        <>
             <Card>
-                {name}
+                <Avatar />
+                <CardContent>
+                    <Typography level="h3">{name}</Typography>
+                </CardContent>
+
+                <CardActions>
+                    {actions}
+                </CardActions>
             </Card>
-        </Link>
-    </>);
+        </>
+    );
 };

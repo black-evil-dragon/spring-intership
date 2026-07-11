@@ -1,4 +1,5 @@
 export * from './types'
 export * from './api'
 
-export { Desk } from './ui/Desk'
+export { DeskColumns } from './ui/DeskColumns'
+export { DeskCard } from './ui/DeskCard'

@@ -1,13 +1,13 @@
-import type { Column } from "@entities/column/types";
+import type { ColumnType } from "@entities/column/types";
 import type { UserList } from "@entities/user/types";
 import type { AuditableEntity } from "@shared/types/entities";
 
-export interface Desk extends AuditableEntity {
+export interface DeskType extends AuditableEntity {
     id: string,
 
     name: string,
     owner: UserList,
-    columns: Column[]
+    columns: ColumnType[]
 }
 
 

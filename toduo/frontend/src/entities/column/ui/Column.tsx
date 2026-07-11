@@ -6,7 +6,7 @@ import { Typography } from '@mui/joy';
 import type { ColumnType } from '..';
 
 interface ColumnProps extends ColumnType {
-    children: ReactNode;
+    children?: ReactNode;
     actions?: ReactNode;
 }
 
