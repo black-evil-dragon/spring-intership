@@ -1,34 +1,24 @@
-import type { ColorPaletteProp } from "@mui/joy";
+import type { ColorPaletteProp, VariantProp } from "@mui/joy";
 import type { TaskStatus } from "..";
 
 interface TaskStatusData {
     label: string,
     color: ColorPaletteProp,
+    variant: VariantProp
 }
 
+export const STATUSES: Record<TaskStatus, TaskStatusData> = {
+    await_work: { label: 'Ожидает выполнения', color: 'danger', variant: 'soft' },
+    in_work: { label: 'Выполняется', color: 'primary', variant: 'soft' },
+    await_control: { label: 'На проверке', color: 'warning', variant: 'soft' },
+    completed: { label: 'Готово', color: 'success', variant: 'solid' },
+} as const;
+
+
 export const getStatusConfig = (statusCode: TaskStatus) => {
-
-    const mapping: Record<TaskStatus, TaskStatusData>  = {
-        'await_control': {
-            label: "Ожидает контроля",
-            color: "warning"
-        },
-        'await_work': {
-            label: "Ожидает выполнения",
-            color: "warning"
-        },
-        'in_work': {
-            label: "Выполняется",
-            color: "primary"
-        },
-        'completed': {
-            label: "Завершено",
-            color: "warning"
-        },
-    }
-
-    return mapping[statusCode] || {
+    return STATUSES[statusCode] || {
         label: "Неизвестно",
-        color: "neutral"
+        color: "neutral",
+        variant: "soft"
     }
 }

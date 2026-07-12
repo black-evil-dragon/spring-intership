@@ -1,19 +1,17 @@
 
 import { configureStore } from '@reduxjs/toolkit';
 
-import { deskAPI } from '@entities/desk';
-import { columnAPI } from '@entities/column/api';
+
+import { API } from '@shared/api';
 
 
 export const store = configureStore({
     reducer: {
-        [deskAPI.reducerPath]: deskAPI.reducer,
-        [columnAPI.reducerPath]: columnAPI.reducer,
+        [API.reducerPath]: API.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(
-            deskAPI.middleware,
-            columnAPI.middleware,
+            API.middleware,
         ),
 });
 

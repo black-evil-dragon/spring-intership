@@ -1,9 +1,7 @@
+import { API } from "@shared/api";
 import type { ColumnCreateRequest, ColumnDeleteRequest } from "../types";
-import { deskAPI } from "@entities/desk";
 
-
-
-const columnCRUD = deskAPI.injectEndpoints({
+const columnCRUD = API.injectEndpoints({
 
     endpoints: (build) => ({
 
@@ -14,7 +12,7 @@ const columnCRUD = deskAPI.injectEndpoints({
                 body,
             }),
             invalidatesTags: (result, error, { deskId }) => [
-                { type: 'DeskDetail', id: deskId }
+                { type: 'Desk', id: deskId }
             ],
         }),
 
@@ -24,7 +22,7 @@ const columnCRUD = deskAPI.injectEndpoints({
                 method: 'DELETE',
             }),
             invalidatesTags: (result, error, { deskId }) => [
-                { type: 'DeskDetail', id: deskId }
+                { type: 'Desk', id: deskId }
             ],
         }),
     }),

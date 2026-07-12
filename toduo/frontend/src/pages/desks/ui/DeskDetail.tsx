@@ -54,40 +54,42 @@ export const DeskDetail = () => {
 
     return (
         <>
-            <Container>
-                <Typography level="h2" sx={{ mb: 3 }}>
-                    {data?.name}
-                </Typography>
-                <DeskColumns>
-                    {data?.columns.map((column, index) => (
-                        <Column
-                            {...column}
-                            key={index}
-                            actions={
-                                <Stack direction={'row'} gap={1}>
-                                    <ColumnAddIcon
-                                        newPosition={column.position + 1}
-                                        deskId={deskId!}
-                                    />
-                                    <ColumnDeleteIcon
-                                        columnId={column.id}
-                                        deskId={deskId!}
-                                    />
-                                </Stack>
-                            }
-                        >
-                            <TaskAdd />
-                            {column.tasks.map((task, index) => (
-                                <TaskCard {...task} key={index} />
-                            ))}
-                        </Column>
-                    ))}
+            {deskId && (
+                <Container>
+                    <Typography level="h2" sx={{ mb: 3 }}>
+                        {data?.name}
+                    </Typography>
+                    <DeskColumns>
+                        {data?.columns.map((column, index) => (
+                            <Column
+                                {...column}
+                                key={index}
+                                actions={
+                                    <Stack direction={'row'} gap={1}>
+                                        <ColumnAddIcon
+                                            newPosition={column.position + 1}
+                                            deskId={deskId!}
+                                        />
+                                        <ColumnDeleteIcon
+                                            columnId={column.id}
+                                            deskId={deskId!}
+                                        />
+                                    </Stack>
+                                }
+                            >
+                                <TaskAdd deskId={parseInt(deskId)} />
+                                {column.tasks.map((task, index) => (
+                                    <TaskCard {...task} key={index} />
+                                ))}
+                            </Column>
+                        ))}
 
-                    <ColumnEmpty
-                        actions={<ColumnAddButton deskId={deskId!} />}
-                    />
-                </DeskColumns>
-            </Container>
+                        <ColumnEmpty
+                            actions={<ColumnAddButton deskId={deskId!} />}
+                        />
+                    </DeskColumns>
+                </Container>
+            )}
         </>
     );
 };

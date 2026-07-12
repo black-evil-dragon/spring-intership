@@ -10,8 +10,8 @@ import {
     Stack,
 } from '@mui/joy';
 
-import { useGetDesksQuery } from '@entities/desk';
-import { DeskCard } from '@entities/desk';
+
+import { DeskCard, useGetDesksQuery } from '@entities/desk';
 
 import { NavLink } from 'react-router-dom';
 import { Edit } from '@mui/icons-material';
