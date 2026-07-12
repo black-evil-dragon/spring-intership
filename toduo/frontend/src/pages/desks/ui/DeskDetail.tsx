@@ -1,24 +1,22 @@
 import { Navigate, useParams } from 'react-router-dom';
+import { Chip, CircularProgress, Container, Stack, Typography } from '@mui/joy';
+
+import { TaskAdd } from '@features/task-add/ui/TaskAdd';
+import { ColumnAddButton, ColumnAddIcon } from '@features/column-add';
 
 import { DeskColumns, useGetDeskDetailQuery } from '@entities/desk';
-import { Chip, CircularProgress, Container, Stack, Typography } from '@mui/joy';
 import { Column } from '@entities/column';
-import { TaskAdd } from '@features/task-add/ui/TaskAdd';
 import { TaskCard } from '@entities/task';
-import {
-    ColumnAdd,
-    ColumnAddIcon,
-} from '@features/column-add/ui/ColumnAddIcon';
 import { ColumnEmpty } from '@entities/column/ui/ColumnEmpty';
 
 export const DeskDetail = () => {
-    const { id } = useParams();
+    const { id: deskId } = useParams();
 
-    if (!id) {
+    if (!deskId) {
         <Navigate to={'desks'} />;
     }
 
-    const { data, error, isLoading } = useGetDeskDetailQuery(id!);
+    const { data, error, isLoading } = useGetDeskDetailQuery(deskId!);
 
     if (isLoading) {
         return (
@@ -61,7 +59,12 @@ export const DeskDetail = () => {
                         <Column
                             {...column}
                             key={index}
-                            actions={<ColumnAddIcon />}
+                            actions={
+                                <ColumnAddIcon
+                                    newPosition={column.position + 1}
+                                    deskId={deskId!}
+                                />
+                            }
                         >
                             <TaskAdd />
                             {column.tasks.map((task, index) => (
@@ -70,7 +73,9 @@ export const DeskDetail = () => {
                         </Column>
                     ))}
 
-                    <ColumnEmpty actions={<ColumnAdd />} />
+                    <ColumnEmpty
+                        actions={<ColumnAddButton deskId={deskId!} />}
+                    />
                 </DeskColumns>
             </Container>
         </>

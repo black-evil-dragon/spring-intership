@@ -12,15 +12,14 @@ interface ColumnProps extends ColumnType {
 
 export const Column = ({ name, children, actions }: ColumnProps) => {
     return (
-        <Card>
-            <Stack
-                direction={'row'}
-                justifyContent={'space-between'}
-                sx={{
-                    width: 300,
-                    flexShrink: 0,
-                }}
-            >
+        <Card
+            sx={{
+                width: 300,
+                height: '100%',
+                flexShrink: 0,
+            }}
+        >
+            <Stack direction={'row'} justifyContent={'space-between'}>
                 <Typography level="h3">{name}</Typography>
                 {actions}
             </Stack>

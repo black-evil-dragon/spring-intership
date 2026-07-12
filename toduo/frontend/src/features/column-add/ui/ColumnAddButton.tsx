@@ -1,32 +1,32 @@
-import { Add } from '@mui/icons-material';
-import { IconButton } from '@mui/joy';
-import { useState } from 'react';
+import { Add } from "@mui/icons-material";
+import { Button } from "@mui/joy";
+import { useState } from "react";
+import { ColumnAddModal } from "./ColumnAddModal";
 
-
-import { ColumnAddModal } from './ColumnAddModal';
 
 interface ColumnAddProps {
     deskId: string;
-    newPosition?: number;
 }
 
-export const ColumnAddIcon = ({ newPosition, deskId }: ColumnAddProps) => {
+
+export const ColumnAddButton = ({ deskId }: ColumnAddProps) => {
     const [openModal, setOpenModal] = useState<boolean>(false);
 
     return (
         <>
-            <IconButton
+            <Button
                 variant="soft"
+                color="neutral"
                 size="sm"
+                startDecorator={<Add />}
                 onClick={() => setOpenModal(true)}
             >
-                <Add />
-            </IconButton>
+                Добавить колонку
+            </Button>
 
             <ColumnAddModal
                 open={openModal}
                 setOpen={setOpenModal}
-                newPosition={newPosition}
                 deskId={deskId}
             />
         </>

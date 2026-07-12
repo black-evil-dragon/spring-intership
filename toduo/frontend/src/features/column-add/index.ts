@@ -1,1 +1,2 @@
-export { ColumnAddIcon, ColumnAdd } from './ui/ColumnAddIcon';
+export { ColumnAddIcon } from './ui/ColumnAddIcon';
+export { ColumnAddButton } from './ui/ColumnAddButton';

@@ -16,6 +16,7 @@ export const ColumnEmpty = ({ actions }: ColumnProps) => {
                 width: '300px',
                 borderStyle: 'dashed',
                 height: '100%',
+                flexShrink: 0
             }}
         >
             {actions}

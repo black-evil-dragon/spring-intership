@@ -80,7 +80,14 @@ public class DeskColumnService {
         column.setDesk(desk);
         column.setPosition(maxPosition + 1);
 
-        return repository.save(column);
+        //! Костыль
+        DeskColumnEntity newColumn = repository.save(column);
+        
+        if (createDto.newPosition() != null) {
+            moveColumn(newColumn, createDto.newPosition());
+        }
+
+        return newColumn;
     }
 
 
@@ -96,7 +103,6 @@ public class DeskColumnService {
         if (updateDto.newPosition() != null) {
             moveColumn(column, updateDto.newPosition());
         }
-
 
         return repository.save(column);
     }
@@ -179,7 +185,8 @@ public class DeskColumnService {
             // Если колонки еще не создавали
             if (column == null) {
                 DeskColumnCreateDto createDto = new DeskColumnCreateDto(
-                    "Не запланировано"
+                    "Не запланировано",
+                    1
                 );
 
                 column = create(deskId, createDto);
