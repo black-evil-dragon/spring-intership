@@ -1,8 +1,8 @@
 import type { TaskStatus } from "@entities/task"
 
 export interface TaskCreateRequest {
-    deskId: number
-    columnId?: number
+    deskId: string
+    columnId?: string
 
     name: string,
     status: TaskStatus
@@ -10,8 +10,8 @@ export interface TaskCreateRequest {
     description?: string,
     deadline?: string
 
-    authorId: number,
-    assigneeId?: number
+    authorId: string,
+    assigneeId?: string
 }
 
 export interface TaskDeleteRequest {

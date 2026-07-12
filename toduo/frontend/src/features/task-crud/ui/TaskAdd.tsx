@@ -5,10 +5,11 @@ import { TaskCreateModal } from './TaskCreateModal';
 
 
 interface TaskAddProps {
-    deskId: number
+    deskId: string;
+    columnId: string;
 }
 
-export const TaskAdd = ({ deskId }: TaskAddProps) => {
+export const TaskAdd = ({ deskId, columnId }: TaskAddProps) => {
     const [openModal, setOpenModal] = useState<boolean>(false);
 
     return (
@@ -24,6 +25,7 @@ export const TaskAdd = ({ deskId }: TaskAddProps) => {
 
             <TaskCreateModal
                 deskId={deskId}
+                columnId={columnId}
                 open={openModal}
                 setOpen={setOpenModal}
             />

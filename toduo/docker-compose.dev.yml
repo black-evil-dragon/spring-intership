@@ -2,11 +2,31 @@ networks:
   toduo-network:
     driver: bridge
 
-#volumes:
-#  backend-maven-cache:
+volumes:
+  frontend_node_modules:
+  backend-maven-cache:
 
 services:
   # * _______________________ NGINX _______________________
+  nginx-dev:
+    container_name: toduo_nginx_dev
+    image: nginx:stable-alpine
+
+    environment:
+      - NGINX_MODE=development
+
+    volumes:
+      - './nginx/nginx.dev.conf:/etc/nginx/nginx.conf'
+
+    networks:
+      - toduo-network
+
+    ports:
+      - "80:80"
+
+    depends_on:
+      - frontend-dev
+      - backend-dev
   # * _____________________ ###### _________________________
 
 
@@ -41,11 +61,61 @@ services:
 
 
   # * _______________________ BACK _______________________
-  # TODO: Настроить конфиги для прод и дев сборки
+  backend-dev:
+    container_name: toduo_backend_dev
+    hostname: toduo_backend
+
+    image: eclipse-temurin:21-jdk-jammy
+    working_dir: /app
+
+    volumes:
+      - ./backend:/app
+      - backend-maven-cache:/root/.m2
+
+    env_file:
+      - .env
+
+    environment:
+      DATABASE_HOST: jdbc:postgresql://toduo_db:5432/${DATABASE_NAME}
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DEVTOOLS_RESTART_ENABLED: true
+
+    networks:
+      - toduo-network
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+
+    command: >
+      ./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
   # * _____________________ ###### _________________________
 
 
 
 
   # * _______________________ FRONT _______________________
+  frontend-dev:
+    container_name: toduo_frontend_dev
+    hostname: toduo_frontend
+
+    environment:
+      NODE_ENV: development
+      VITE_WS_HOST: 0.0.0.0
+      CHOKIDAR_USEPOLLING: true
+      WATCHPACK_POLLING: true
+
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: development
+
+    volumes:
+      - ./frontend:/app
+      - frontend_node_modules:/app/node_modules
+
+    networks:
+      - toduo-network
+
+    ports:
+      - "5173:5173"
   # * _____________________ ###### _________________________

@@ -24,16 +24,16 @@ import { useCreateTaskMutation } from '../api';
 
 
 interface TaskCreateModalProps {
-    deskId: number
-
+    deskId: string;
+    columnId?: string
 
     open: boolean;
     setOpen: Dispatch<SetStateAction<boolean>>;
-
 }
 
 export const TaskCreateModal = ({
     deskId,
+    columnId,
     open,
     setOpen,
 
@@ -53,15 +53,16 @@ export const TaskCreateModal = ({
     const onSubmit: SubmitHandler<TaskCreateForm> = (data) => {
         createTask({
             deskId: deskId,
+            columnId: columnId,
 
             name: data.taskName,
             description: data.description,
             status: data.status,
 
-            authorId: 1,
+            authorId: "1",
         });
         setOpen(false);
-
+        // reset();
     };
 
     return (

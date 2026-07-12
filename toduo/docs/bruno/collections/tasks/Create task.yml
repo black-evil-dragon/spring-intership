@@ -10,7 +10,7 @@ http:
     type: json
     data: |-
       {
-        "deskId": 2,
+        "deskId": "1",
         "name": "Разработать сервис Задачи 2",
         "status": "await_work",
         "description": "Разработать сервис Задачи. Приложение должно иметь круд операции",

@@ -20,7 +20,7 @@ import { NavLink } from 'react-router-dom';
 export const Header = () => {
     return (
         <>
-            <Sheet variant="soft" color="neutral" sx={{ mb: 3 }}>
+            <Sheet variant="soft" color="neutral" sx={{ mb: 2 }}>
                 <Container sx={{ p: 2, display: 'flex', alignItems: 'center' }}>
                     {/* Navigation */}
                     <Stack direction={'row'} gap={5}>

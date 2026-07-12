@@ -37,7 +37,7 @@ export const TaskCard = (taskSummary: TaskCardProps) => {
             </Chip>
 
             {/* Название задачи */}
-            <Typography>{name}</Typography>
+            <Typography level='title-lg'>{name}</Typography>
 
 
             {/* Постановщик и испольнитель задачи */}

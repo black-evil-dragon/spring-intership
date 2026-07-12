@@ -19,17 +19,17 @@ public class SecurityConfig {
     }
 
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                    .allowedOrigins("*")
-                    .allowedMethods("*")
-                    .allowedHeaders("*");
-            }
-        };
-    }
+    // @Bean
+    // public WebMvcConfigurer corsConfigurer() {
+    //     return new WebMvcConfigurer() {
+    //         public void addCorsMappings(CorsRegistry registry) {
+    //             registry.addMapping("/**")
+    //                 .allowedOrigins("*")
+    //                 .allowedMethods("*")
+    //                 .allowedHeaders("*");
+    //         }
+    //     };
+    // }
     
 
     // TODO: настроить

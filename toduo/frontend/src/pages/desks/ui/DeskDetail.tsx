@@ -1,5 +1,12 @@
-import { Navigate, useParams } from 'react-router-dom';
-import { Chip, CircularProgress, Container, Stack, Typography } from '@mui/joy';
+import { Navigate, NavLink, useParams } from 'react-router-dom';
+import {
+    Chip,
+    CircularProgress,
+    Container,
+    Link,
+    Stack,
+    Typography,
+} from '@mui/joy';
 
 import { TaskAdd } from '@features/task-crud/ui/TaskAdd';
 import {
@@ -53,43 +60,53 @@ export const DeskDetail = () => {
     }
 
     return (
-        <>
-            {deskId && (
-                <Container>
-                    <Typography level="h2" sx={{ mb: 3 }}>
-                        {data?.name}
-                    </Typography>
-                    <DeskColumns>
-                        {data?.columns.map((column, index) => (
-                            <Column
-                                {...column}
-                                key={index}
-                                actions={
-                                    <Stack direction={'row'} gap={1}>
-                                        <ColumnAddIcon
-                                            newPosition={column.position + 1}
-                                            deskId={deskId!}
-                                        />
-                                        <ColumnDeleteIcon
-                                            columnId={column.id}
-                                            deskId={deskId!}
-                                        />
-                                    </Stack>
-                                }
-                            >
-                                <TaskAdd deskId={parseInt(deskId)} />
-                                {column.tasks.map((task, index) => (
-                                    <TaskCard {...task} key={index} />
-                                ))}
-                            </Column>
-                        ))}
+        deskId && (
+            <Container>
+                <Typography level="h2" sx={{ mb: 3 }}>
+                    {data?.name}
+                </Typography>
+                <DeskColumns>
+                    {data?.columns.map((column, index) => (
+                        <Column
+                            {...column}
+                            key={index}
+                            actions={
+                                <Stack direction={'row'} gap={1}>
+                                    <ColumnAddIcon
+                                        newPosition={column.position + 1}
+                                        deskId={deskId!}
+                                    />
+                                    <ColumnDeleteIcon
+                                        columnId={column.id}
+                                        deskId={deskId}
+                                    />
+                                </Stack>
+                            }
+                        >
+                            <TaskAdd deskId={deskId} columnId={column.id} />
+                            {column.tasks.map((task, index) => (
+                                <Link
+                                    key={`ct-${column.id}${task.id}${index}`}
+                                    component={NavLink}
+                                    to={`/tasks/${task.id}`}
+                                    overlay
+                                    underline="none"
+                                    sx={{
+                                        position: 'relative',
+                                        display: 'block',
+                                    }}
+                                >
+                                    <TaskCard {...task} />
+                                </Link>
+                            ))}
+                        </Column>
+                    ))}
 
-                        <ColumnEmpty
-                            actions={<ColumnAddButton deskId={deskId!} />}
-                        />
-                    </DeskColumns>
-                </Container>
-            )}
-        </>
+                    <ColumnEmpty
+                        actions={<ColumnAddButton deskId={deskId!} />}
+                    />
+                </DeskColumns>
+            </Container>
+        )
     );
 };

@@ -171,7 +171,7 @@ public class DeskColumnService {
         repository.saveAll(columns);
     }
 
-    // * ======================== UTILS ========================
+    // * ======================== TASKS ========================
     public void addTask(TaskEntity task, Long deskId, Long columnId) {
         deskService.findById(deskId);
 

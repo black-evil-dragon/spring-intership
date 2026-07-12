@@ -15,6 +15,7 @@ public record TaskDetailDto(
     TaskStatus status,
 
     String description,
+    String deadline,
 
     UserSummaryDto assignee,
     UserSummaryDto author,
