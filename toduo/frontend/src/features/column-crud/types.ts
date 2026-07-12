@@ -3,3 +3,8 @@ export interface ColumnCreateRequest {
     name: string,
     newPosition?: number
 }
+
+export interface ColumnDeleteRequest {
+    deskId: string,
+    columnId: string
+}

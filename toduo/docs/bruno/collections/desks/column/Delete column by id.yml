@@ -1,14 +1,17 @@
 info:
-  name: Delete desk by id
+  name: Delete column by id
   type: http
   seq: 6
 
 http:
   method: DELETE
-  url: "{{base_url}}/api/v1/desks/:deskId"
+  url: "{{base_url}}/api/v1/desks/:deskId/columns/:columnId"
   params:
+    - name: columnId
+      value: "1"
+      type: path
     - name: deskId
-      value: "2"
+      value: "1"
       type: path
   auth: inherit
 

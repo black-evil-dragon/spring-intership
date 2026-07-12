@@ -82,7 +82,7 @@ public class DeskColumnService {
 
         //! Костыль
         DeskColumnEntity newColumn = repository.save(column);
-        
+
         if (createDto.newPosition() != null) {
             moveColumn(newColumn, createDto.newPosition());
         }

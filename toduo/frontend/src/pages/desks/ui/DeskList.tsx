@@ -60,36 +60,34 @@ export const DeskList = () => {
             >
                 <Grid container spacing={2}>
                     {desks &&
-                        [...desks, ...desks, ...desks, ...desks].map(
-                            (desk, index) => (
-                                <Grid xs={3} key={`dc-${desk.id}${index}`}>
-                                    <Link
-                                        component={NavLink}
-                                        to={`/desks/${desk.id}`}
-                                        underline="none"
-                                        overlay
-                                        sx={{
-                                            position: 'relative',
-                                            display: 'block',
-                                        }}
-                                    >
-                                        <DeskCard
-                                            {...desk}
-                                            actions={
-                                                <>
-                                                    <Button variant="soft">
-                                                        Перейти
-                                                    </Button>
-                                                    <IconButton variant="soft">
-                                                        <Edit />
-                                                    </IconButton>
-                                                </>
-                                            }
-                                        />
-                                    </Link>
-                                </Grid>
-                            ),
-                        )}
+                        desks.map((desk, index) => (
+                            <Grid xs={3} key={`dc-${desk.id}${index}`}>
+                                <Link
+                                    component={NavLink}
+                                    to={`/desks/${desk.id}`}
+                                    underline="none"
+                                    overlay
+                                    sx={{
+                                        position: 'relative',
+                                        display: 'block',
+                                    }}
+                                >
+                                    <DeskCard
+                                        {...desk}
+                                        actions={
+                                            <>
+                                                <Button variant="soft">
+                                                    Перейти
+                                                </Button>
+                                                <IconButton variant="soft">
+                                                    <Edit />
+                                                </IconButton>
+                                            </>
+                                        }
+                                    />
+                                </Link>
+                            </Grid>
+                        ))}
                 </Grid>
             </Container>
         </>

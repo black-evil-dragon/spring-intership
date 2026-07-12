@@ -1,8 +1,12 @@
 import { Navigate, useParams } from 'react-router-dom';
 import { Chip, CircularProgress, Container, Stack, Typography } from '@mui/joy';
 
-import { TaskAdd } from '@features/task-add/ui/TaskAdd';
-import { ColumnAddButton, ColumnAddIcon } from '@features/column-add';
+import { TaskAdd } from '@features/task-crud/ui/TaskAdd';
+import {
+    ColumnAddButton,
+    ColumnAddIcon,
+    ColumnDeleteIcon,
+} from '@features/column-crud';
 
 import { DeskColumns, useGetDeskDetailQuery } from '@entities/desk';
 import { Column } from '@entities/column';
@@ -60,10 +64,16 @@ export const DeskDetail = () => {
                             {...column}
                             key={index}
                             actions={
-                                <ColumnAddIcon
-                                    newPosition={column.position + 1}
-                                    deskId={deskId!}
-                                />
+                                <Stack direction={'row'} gap={1}>
+                                    <ColumnAddIcon
+                                        newPosition={column.position + 1}
+                                        deskId={deskId!}
+                                    />
+                                    <ColumnDeleteIcon
+                                        columnId={column.id}
+                                        deskId={deskId!}
+                                    />
+                                </Stack>
                             }
                         >
                             <TaskAdd />

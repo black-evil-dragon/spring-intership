@@ -25,11 +25,11 @@ export const Header = () => {
                     {/* Navigation */}
                     <Stack direction={'row'} gap={5}>
                         <Link component={NavLink} to={'/'} underline="none">
-                            <Typography level="h3">TO/DuO</Typography>
+                            <Typography level="h3">toduo</Typography>
                         </Link>
 
                         <Badge badgeContent={1} sx={{ px: 0.5 }}>
-                            <Link>
+                            <Link component={NavLink} to={'/desks'}>
                                 <Typography>Доски</Typography>
                             </Link>
                         </Badge>

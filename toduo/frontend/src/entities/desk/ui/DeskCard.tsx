@@ -19,7 +19,7 @@ export const DeskCard = ({ name, actions }: DeskCardProps) => {
     return (
         <>
             <Card>
-                <Avatar />
+                <Avatar variant='outlined'>СГ</Avatar>
                 <CardContent>
                     <Typography level="h3">{name}</Typography>
                 </CardContent>
