@@ -37,7 +37,7 @@ const taskCRUD = API.injectEndpoints({
                 method: 'DELETE',
             }),
             invalidatesTags: (result, error, { taskId }) => [
-                { type: 'Task', id: taskId }
+                { type: 'Desk' }
             ],
         }),
 

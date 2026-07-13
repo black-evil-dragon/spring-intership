@@ -1,16 +1,25 @@
 import {
+    Breadcrumbs,
     Chip,
     CircularProgress,
     Container,
     Grid,
+    Link,
     Stack,
     Typography
 } from '@mui/joy';
-import { useNavigate, useParams } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 
-import { TaskSidebarCard } from '@entities/task';
+
 import { TaskDeleteButton, TaskEditButton } from '@features/task-crud';
 import { useGetTaskQuery } from '@features/task-crud/api';
+
+import { TaskSidebarCard } from '@entities/task';
+
+import type { BreacrubmsItem } from '@shared/types';
+import { PageBreadcrumbs } from '@shared/components/Breadcrumbs';
+
+
 
 export const TaskDetail = () => {
     const navigate = useNavigate();
@@ -55,10 +64,19 @@ export const TaskDetail = () => {
         );
     }
 
-    const { id, name, description, deadline, status, deskId } = taskData;
+    const { id, name, description, deskId } = taskData;
+
+    const BREADCRUMBS: BreacrubmsItem[] = [
+        { label: 'Главная', url: '/' },
+        { label: 'Доски', url: `/desks` },
+        { label: 'Доска', url: `/desks/${deskId}` },
+        { label: name },
+    ];
+
 
     return (
         <Container>
+            <PageBreadcrumbs breadcrumbs={BREADCRUMBS} />
             <Grid container spacing={3}>
                 <Grid xs>
                     <Typography level="h1">{name}</Typography>
