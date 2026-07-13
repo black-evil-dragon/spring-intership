@@ -29,7 +29,6 @@ export const Column = ({ name, children, actions, onRename }: ColumnProps) => {
     const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === 'Enter') handleSave();
         if (e.key === 'Escape') {
-            e.stopPropagation();
             setIsEditing?.(false);
             setNewName(name);
         }
@@ -51,8 +50,7 @@ export const Column = ({ name, children, actions, onRename }: ColumnProps) => {
                         onChange={(e) => setNewName(e.target.value)}
                         onBlur={handleSave}
                         onKeyDown={handleKeyDown}
-                        onMouseDown={(e) => e.stopPropagation()}
-                        onClick={(e) => e.stopPropagation()}
+                        autoFocus
                         variant="outlined"
                         size="sm"
                         sx={{ flexGrow: 1, variant: 'plain' }}
@@ -67,7 +65,8 @@ export const Column = ({ name, children, actions, onRename }: ColumnProps) => {
                             '&:hover': { opacity: 0.8 },
                         }}
                     >
-                        {name}
+                        {/* Чтобы при сохранении не мелькал старое название */}
+                        {newName}
                     </Typography>
                 )}
                 {actions}

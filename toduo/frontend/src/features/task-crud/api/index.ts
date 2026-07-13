@@ -27,7 +27,7 @@ const taskCRUD = API.injectEndpoints({
             }),
             invalidatesTags: (result, error) =>
                 result
-                    ? [{ type: 'Task', id: result.id }]
+                    ? [{ type: 'Task', id: result.id }, { type: 'Desk', id: result?.deskId, }]
                     : [],
         }),
 

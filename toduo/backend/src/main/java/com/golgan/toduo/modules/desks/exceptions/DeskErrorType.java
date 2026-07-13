@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 public enum DeskErrorType implements ErrorType {
     DESK_NOT_FOUND("DESK_NOT_FOUND", HttpStatus.NOT_FOUND, "Доска не найдена"),
     COLUMN_MISMATCH("COLUMN_MISMATCH", HttpStatus.BAD_REQUEST, "Указанная колонка не принадлежит этой доске"),
+    COLUMN_ALONE("COLUMN_ALONE", HttpStatus.BAD_REQUEST, "Невозможно удалить единственную колонку с задачами"),
     COLUMN_NOT_FOUND("COLUMN_NOT_FOUND", HttpStatus.NOT_FOUND, "Колонка не найдена");
 
     private final String code;

@@ -10,6 +10,7 @@ import type { Dispatch, SetStateAction } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 
 import { useDeleteColumnMutation } from '../api';
+import { useNotification } from '@features/notification';
 
 interface ColumnDeleteModalProps {
     open: boolean;
@@ -27,13 +28,22 @@ export const ColumnDeleteModal = ({
 }: ColumnDeleteModalProps) => {
     const [deleteColumn] = useDeleteColumnMutation();
     const { handleSubmit } = useForm();
+    const { showError, showSuccess } = useNotification();
 
-    const onSubmit: SubmitHandler<{}> = () => {
-        deleteColumn({
-            deskId,
-            columnId,
-        });
-        setOpen(false);
+    const onSubmit: SubmitHandler<{}> = async () => {
+        try {
+            await deleteColumn({
+                deskId,
+                columnId,
+            }).unwrap();
+            showSuccess('Колонка успешно удалена!');
+            setOpen(false);
+        } catch (error: any) {
+            const backendError = error?.response?.data || error?.data;
+
+            showError(backendError.message);
+            setOpen(false);
+        }
     };
 
     return (

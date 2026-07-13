@@ -16,9 +16,12 @@ import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 
 import { TaskStatusSelect, type Task } from '@entities/task';
 
+import { formatToDatetimeLocal, formatToInstant } from '@shared/utils/date';
+
+
 import type { TaskUpdateForm } from '../types';
 import { useUpdateTaskMutation } from '../api';
-import { formatToInstant } from '@shared/utils/date';
+
 
 interface TaskEditPanelProps {
     open: boolean;
@@ -60,9 +63,9 @@ export const TaskEditPanel = ({ open, setOpen, task }: TaskEditPanelProps) => {
             deadline:
                 changedFields.deadline &&
                 formatToInstant(changedFields.deadline) || "",
-        });
+        }).unwrap();
         setOpen(false);
-        // reset();
+        reset();
     };
 
     return (
@@ -113,7 +116,9 @@ export const TaskEditPanel = ({ open, setOpen, task }: TaskEditPanelProps) => {
                                     <Input
                                         {...field}
                                         type="datetime-local"
-                                        value={field.value ?? ''}
+                                        value={formatToDatetimeLocal(
+                                            field.value,
+                                        )}
                                     />
                                     {error && (
                                         <FormHelperText>
