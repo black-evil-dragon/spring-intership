@@ -21,9 +21,7 @@ const columnCRUD = API.injectEndpoints({
                 url: `/desks/${deskId}/columns/${columnId}`,
                 method: 'DELETE',
             }),
-            invalidatesTags: (result, error, { deskId }) => [
-                { type: 'Desk', id: deskId }
-            ],
+            invalidatesTags: (result, error, { deskId }) => [{ type: 'Desk', id: deskId }],
         }),
 
         updateColumn: build.mutation<any, ColumnUpdateRequest>({
@@ -32,9 +30,7 @@ const columnCRUD = API.injectEndpoints({
                 method: 'PATCH',
                 body
             }),
-            invalidatesTags: (result, error, { columnId }) => [
-                { type: 'Column', id: columnId }
-            ],
+            invalidatesTags: (result, error, { deskId }) => [{ type: 'Desk', id: deskId }],
         }),
     }),
 

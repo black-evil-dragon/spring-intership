@@ -9,6 +9,7 @@ const deskCRUD = API.injectEndpoints({
     endpoints: (build) => ({
         getDesksPage: build.query<Pageable<DeskSummary[]>, void>({
             query: () => "/desks",
+            providesTags: ['Desk'],
         }),
 
         getDesk: build.query<DeskType, string>({

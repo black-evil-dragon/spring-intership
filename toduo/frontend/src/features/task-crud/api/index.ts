@@ -41,14 +41,15 @@ const taskCRUD = API.injectEndpoints({
             ],
         }),
 
-        updateTask: build.mutation<any, TaskUpdateRequest>({
+        updateTask: build.mutation<Task, TaskUpdateRequest>({
             query: ({ taskId, ...body }) => ({
                 url: `/tasks/${taskId}`,
                 method: 'PATCH',
                 body,
             }),
             invalidatesTags: (result, error, { taskId }) => [
-                { type: 'Task', id: taskId }
+                { type: 'Task', id: taskId, },
+                { type: 'Desk', id: result?.deskId, }
             ],
         }),
     }),

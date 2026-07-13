@@ -1,4 +1,4 @@
-import { useRef, useState, type ReactNode } from 'react';
+import { useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 
 import { Card, Divider, Input, Stack } from '@mui/joy';
 import { Typography } from '@mui/joy';
@@ -12,12 +12,7 @@ interface ColumnProps extends ColumnType {
     actions?: ReactNode;
 }
 
-export const Column = ({
-    name,
-    children,
-    actions,
-    onRename,
-}: ColumnProps) => {
+export const Column = ({ name, children, actions, onRename }: ColumnProps) => {
     const [isEditing, setIsEditing] = useState(false);
     const [newName, setNewName] = useState(name);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -26,15 +21,15 @@ export const Column = ({
         setIsEditing?.(false);
         if (newName.trim() && newName !== name) {
             onRename?.(newName.trim());
-            console.log(newName.trim());
         } else {
             setNewName(name);
         }
     };
 
-    const handleKeyDown = (e: React.KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === 'Enter') handleSave();
         if (e.key === 'Escape') {
+            e.stopPropagation();
             setIsEditing?.(false);
             setNewName(name);
         }
@@ -56,6 +51,8 @@ export const Column = ({
                         onChange={(e) => setNewName(e.target.value)}
                         onBlur={handleSave}
                         onKeyDown={handleKeyDown}
+                        onMouseDown={(e) => e.stopPropagation()}
+                        onClick={(e) => e.stopPropagation()}
                         variant="outlined"
                         size="sm"
                         sx={{ flexGrow: 1, variant: 'plain' }}
