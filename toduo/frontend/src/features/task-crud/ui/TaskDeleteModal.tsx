@@ -9,40 +9,40 @@ import {
 import type { Dispatch, SetStateAction } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 
-import { useDeleteColumnMutation } from '../api';
 
-interface ColumnDeleteModalProps {
+import { useDeleteTaskMutation } from '../api';
+
+
+
+interface TaskDeleteModalProps {
     open: boolean;
     setOpen: Dispatch<SetStateAction<boolean>>;
 
-    deskId: string;
-    columnId: string;
+    taskId: string;
+    onSuccess?: () => void
 }
 
-export const ColumnDeleteModal = ({
+export const TaskDeleteModal = ({
     open,
     setOpen,
-    deskId,
-    columnId,
-}: ColumnDeleteModalProps) => {
-    const [deleteColumn] = useDeleteColumnMutation();
+    taskId,
+    onSuccess,
+}: TaskDeleteModalProps) => {
+    const [deleteTask] = useDeleteTaskMutation();
     const { handleSubmit } = useForm();
 
     const onSubmit: SubmitHandler<{}> = () => {
-        deleteColumn({
-            deskId,
-            columnId,
-        });
+        deleteTask({ taskId });
+        onSuccess?.();
         setOpen(false);
     };
 
     return (
         <Modal open={open} onClose={() => setOpen(false)}>
             <ModalDialog>
-                <DialogTitle>Удалить колонку</DialogTitle>
+                <DialogTitle>Удалить задачу</DialogTitle>
                 <DialogContent sx={{ maxWidth: '400px' }}>
-                    Убедитесь, что в ней не осталось задач. Задачи из удаленной
-                    колонки попадут в первую колонку
+                    Вы уверены, что хотите удалить задачу?
                 </DialogContent>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Stack spacing={2} direction={'row'}>

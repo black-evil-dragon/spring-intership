@@ -17,9 +17,11 @@ public interface TaskMapper extends EntityMapper<
     TaskDetailDto, TaskSummaryDto, TaskListDto
     > {
 
+    @Override
+    @Mapping(target = "deskId", source = "column.desk.id")
+    TaskDetailDto toDetailDto(TaskEntity entity);
 
     @Override
     @Mapping(target = "columnId", source = "column.id")
     TaskSummaryDto toSummaryDto(TaskEntity entity);
-
 }

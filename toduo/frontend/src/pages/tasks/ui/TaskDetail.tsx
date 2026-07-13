@@ -1,19 +1,15 @@
-import { useNavigate, useParams } from 'react-router-dom';
 import {
-    Avatar,
-    Breadcrumbs,
-    Button,
-    Card,
     Chip,
     CircularProgress,
     Container,
     Grid,
-    Link,
     Stack,
-    Table,
-    Typography,
+    Typography
 } from '@mui/joy';
+import { useNavigate, useParams } from 'react-router-dom';
 
+import { TaskSidebarCard } from '@entities/task';
+import { TaskDeleteButton, TaskEditButton } from '@features/task-crud';
 import { useGetTaskQuery } from '@features/task-crud/api';
 
 export const TaskDetail = () => {
@@ -25,7 +21,7 @@ export const TaskDetail = () => {
         return;
     }
 
-    const { data, error, isLoading } = useGetTaskQuery(taskId);
+    const { data: taskData, error, isLoading } = useGetTaskQuery(taskId);
 
     if (isLoading) {
         return (
@@ -41,7 +37,7 @@ export const TaskDetail = () => {
         );
     }
 
-    if (!data || error) {
+    if (!taskData || error) {
         return (
             <Stack
                 justifyContent={'center'}
@@ -59,7 +55,7 @@ export const TaskDetail = () => {
         );
     }
 
-    const { id, name, description, deadline, status } = data;
+    const { id, name, description, deadline, status, deskId } = taskData;
 
     return (
         <Container>
@@ -78,47 +74,12 @@ export const TaskDetail = () => {
                         gap: 2,
                     }}
                 >
-                    <Card>
-                        <Stack gap={2}>
-                            <Stack
-                                justifyContent={'space-between'}
-                                alignItems={'center'}
-                                direction={'row'}
-                            >
-                                <Typography level="title-md">
-                                    Исполнитель
-                                </Typography>
-                                <Avatar />
-                            </Stack>
-
-                            <Stack
-                                justifyContent={'space-between'}
-                                alignItems={'center'}
-                                direction={'row'}
-                            >
-                                <Typography level="title-md">
-                                    Постановщик
-                                </Typography>
-                                <Avatar />
-                            </Stack>
-
-                            <Stack
-                                justifyContent={'space-between'}
-                                alignItems={'center'}
-                                direction={'row'}
-                            >
-                                <Typography level="title-md">
-                                    Крайний срок
-                                </Typography>
-                                <Typography>
-                                    {deadline || 'Не задан'}
-                                </Typography>
-                            </Stack>
-                        </Stack>
-                    </Card>
-                    <Button variant="soft" color={'danger'} size={'sm'}>
-                        Удалить
-                    </Button>
+                    <TaskSidebarCard {...taskData} />
+                    <TaskEditButton task={taskData} />
+                    <TaskDeleteButton
+                        taskId={id}
+                        onSuccess={() => navigate(`/desks/${deskId}`)}
+                    />
                 </Grid>
             </Grid>
         </Container>

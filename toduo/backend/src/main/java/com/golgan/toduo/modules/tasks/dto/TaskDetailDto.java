@@ -10,6 +10,7 @@ public record TaskDetailDto(
     Long id,
 
     DeskColumnSummaryDto column,
+    Long deskId,
 
     String name,
     TaskStatus status,

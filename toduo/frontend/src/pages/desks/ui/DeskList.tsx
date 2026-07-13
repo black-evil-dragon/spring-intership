@@ -1,6 +1,4 @@
 import {
-    Box,
-    Breadcrumbs,
     Button,
     Chip,
     CircularProgress,
@@ -8,16 +6,18 @@ import {
     Grid,
     IconButton,
     Link,
-    Stack,
+    Stack
 } from '@mui/joy';
-
-import { DeskCard, useGetDesksQuery } from '@entities/desk';
-
-import { NavLink } from 'react-router-dom';
 import { Edit } from '@mui/icons-material';
+import { NavLink } from 'react-router-dom';
+
+import { DeskCard } from '@entities/desk';
+
+import { useGetDesksPageQuery } from '@features/desk-crud/api';
+
 
 export const DeskList = () => {
-    const { data: desksData, isLoading } = useGetDesksQuery();
+    const { data: desksData, isLoading } = useGetDesksPageQuery();
 
     if (isLoading) {
         return (

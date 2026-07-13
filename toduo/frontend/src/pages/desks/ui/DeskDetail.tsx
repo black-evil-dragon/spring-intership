@@ -8,26 +8,30 @@ import {
     Typography,
 } from '@mui/joy';
 
-import { TaskAdd } from '@features/task-crud/ui/TaskAdd';
+import { TaskCreateButton } from '@features/task-crud';
+import { useUpdateColumnMutation } from '@features/column-crud/api';
 import {
     ColumnAddButton,
     ColumnAddIcon,
     ColumnDeleteIcon,
 } from '@features/column-crud';
 
-import { DeskColumns, useGetDeskDetailQuery } from '@entities/desk';
+import { DeskColumns  } from '@entities/desk';
 import { Column } from '@entities/column';
 import { TaskCard } from '@entities/task';
-import { ColumnEmpty } from '@entities/column/ui/ColumnEmpty';
+import { ColumnEmpty } from '@entities/column';
+import { useGetDeskQuery } from '@features/desk-crud/api';
+
 
 export const DeskDetail = () => {
     const { id: deskId } = useParams();
+    const [updateColumn] = useUpdateColumnMutation();
 
     if (!deskId) {
         <Navigate to={'desks'} />;
     }
 
-    const { data, error, isLoading } = useGetDeskDetailQuery(deskId!);
+    const { data, error, isLoading } = useGetDeskQuery(deskId!);
 
     if (isLoading) {
         return (
@@ -59,6 +63,19 @@ export const DeskDetail = () => {
         );
     }
 
+
+    const onColumnRename = (
+        deskId: string,
+        columnId: string,
+        newName: string,
+    ) => {
+        updateColumn({
+            deskId,
+            columnId,
+            name: newName,
+        });
+    };
+
     return (
         deskId && (
             <Container>
@@ -82,8 +99,12 @@ export const DeskDetail = () => {
                                     />
                                 </Stack>
                             }
+                            onRename={(newName) => onColumnRename(deskId, column.id, newName)}
                         >
-                            <TaskAdd deskId={deskId} columnId={column.id} />
+                            <TaskCreateButton
+                                deskId={deskId}
+                                columnId={column.id}
+                            />
                             {column.tasks.map((task, index) => (
                                 <Link
                                     key={`ct-${column.id}${task.id}${index}`}

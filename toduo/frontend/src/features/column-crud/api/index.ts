@@ -1,5 +1,5 @@
 import { API } from "@shared/api";
-import type { ColumnCreateRequest, ColumnDeleteRequest } from "../types";
+import type { ColumnCreateRequest, ColumnDeleteRequest, ColumnUpdateRequest } from "../types";
 
 const columnCRUD = API.injectEndpoints({
 
@@ -25,6 +25,17 @@ const columnCRUD = API.injectEndpoints({
                 { type: 'Desk', id: deskId }
             ],
         }),
+
+        updateColumn: build.mutation<any, ColumnUpdateRequest>({
+            query: ({ deskId, columnId, ...body }) => ({
+                url: `/desks/${deskId}/columns/${columnId}`,
+                method: 'PATCH',
+                body
+            }),
+            invalidatesTags: (result, error, { columnId }) => [
+                { type: 'Column', id: columnId }
+            ],
+        }),
     }),
 
     overrideExisting: false,
@@ -32,5 +43,6 @@ const columnCRUD = API.injectEndpoints({
 
 export const {
     useCreateColumnMutation,
-    useDeleteColumnMutation
+    useDeleteColumnMutation,
+    useUpdateColumnMutation,
 } = columnCRUD

@@ -1,15 +1,17 @@
 import { Add } from '@mui/icons-material';
 import { Button } from '@mui/joy';
 import { useState } from 'react';
+
+
 import { TaskCreateModal } from './TaskCreateModal';
 
 
-interface TaskAddProps {
+interface TaskCreateButtonProps {
     deskId: string;
     columnId: string;
 }
 
-export const TaskAdd = ({ deskId, columnId }: TaskAddProps) => {
+export const TaskCreateButton = ({ deskId, columnId }: TaskCreateButtonProps) => {
     const [openModal, setOpenModal] = useState<boolean>(false);
 
     return (

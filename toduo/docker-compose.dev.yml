@@ -79,6 +79,7 @@ services:
       DATABASE_HOST: jdbc:postgresql://toduo_db:5432/${DATABASE_NAME}
       SPRING_PROFILES_ACTIVE: dev
       SPRING_DEVTOOLS_RESTART_ENABLED: true
+      MAVEN_CONFIG: /root/.m2
 
     networks:
       - toduo-network
@@ -87,7 +88,9 @@ services:
       - "5005:5005"
 
     command: >
-      ./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+      ./mvnw spring-boot:run
+      -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+      -Dmaven.repo.local=/root/.m2/repository
   # * _____________________ ###### _________________________
 
 

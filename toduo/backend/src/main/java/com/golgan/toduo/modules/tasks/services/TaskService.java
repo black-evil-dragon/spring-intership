@@ -140,7 +140,7 @@ public class TaskService {
     }
 
     public TaskEntity getTaskOrNotFound(Long id) {
-        TaskEntity entity = repository.findById(id).orElse(null);
+        TaskEntity entity = repository.findWithDeskById(id).orElse(null);
 
         return getTaskOrNotFound(entity);
     }
