@@ -3,6 +3,7 @@ package com.golgan.toduo.modules.desks.services;
 
 import com.golgan.toduo.modules.desks.dto.DeskColumnCreateDto;
 import com.golgan.toduo.modules.desks.dto.DeskColumnUpdateDto;
+import com.golgan.toduo.modules.desks.exceptions.ColumnLeftAloneAndSad;
 import com.golgan.toduo.modules.desks.exceptions.ColumnMissMatchException;
 import com.golgan.toduo.modules.desks.exceptions.ColumnNotFoundException;
 import com.golgan.toduo.modules.desks.mappers.DeskColumnMapper;
@@ -80,7 +81,14 @@ public class DeskColumnService {
         column.setDesk(desk);
         column.setPosition(maxPosition + 1);
 
-        return repository.save(column);
+        //! Костыль
+        DeskColumnEntity newColumn = repository.save(column);
+
+        if (createDto.newPosition() != null) {
+            moveColumn(newColumn, createDto.newPosition());
+        }
+
+        return newColumn;
     }
 
 
@@ -96,7 +104,6 @@ public class DeskColumnService {
         if (updateDto.newPosition() != null) {
             moveColumn(column, updateDto.newPosition());
         }
-
 
         return repository.save(column);
     }
@@ -148,24 +155,47 @@ public class DeskColumnService {
     // TODO Надо бы логику перемещения в sql написать
     @Transactional
     public void delete(Long deskId, Long id) {
-        DeskColumnEntity column = getByIdOrNotFound(id);
-
-        checkColumnByDeskId(column, deskId);
-
-        // Удаляем колонку
-        repository.delete(column);
-
-        // Переопределяем индексы
         List<DeskColumnEntity> columns = repository.findAllByDeskIdOrderByPositionAsc(deskId);
 
+        // Ищем удаляемую колонку
+        DeskColumnEntity columnToDelete = columns.stream()
+            .filter(col -> col.getId().equals(id))
+            .findFirst()
+            .orElseThrow(ColumnNotFoundException::new);
+
+        checkColumnByDeskId(columnToDelete, deskId);
+
+        // Если колонка осталась одна
+        if (columns.size() <= 1) {
+            throw new ColumnLeftAloneAndSad();
+        }
+
+
+        DeskColumnEntity targetColumn = columns.get(0).getId().equals(id)
+            ? columns.get(1)
+            : columns.get(0);
+
+
+        List<TaskEntity> tasksToMove = new ArrayList<>(columnToDelete.getTasks());
+        for (TaskEntity task : tasksToMove) {
+            task.setColumn(targetColumn);
+            targetColumn.getTasks().add(task);
+        }
+
+        columnToDelete.getTasks().clear();
+        repository.delete(columnToDelete);
+        columns.remove(columnToDelete);
+
+        // Переопределяем индексы оставшихся колонок
         for (int i = 0; i < columns.size(); i++) {
             columns.get(i).setPosition(i);
         }
 
+        // Сохраняем обновленные позиции
         repository.saveAll(columns);
     }
 
-    // * ======================== UTILS ========================
+    // * ======================== TASKS ========================
     public void addTask(TaskEntity task, Long deskId, Long columnId) {
         deskService.findById(deskId);
 
@@ -179,7 +209,8 @@ public class DeskColumnService {
             // Если колонки еще не создавали
             if (column == null) {
                 DeskColumnCreateDto createDto = new DeskColumnCreateDto(
-                    "Не запланировано"
+                    "Не запланировано",
+                    1
                 );
 
                 column = create(deskId, createDto);

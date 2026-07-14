@@ -7,15 +7,18 @@ import { Footer } from '@widgets/Footer';
 
 export function Layout() {
 
-    return (<>
-        {/* App header component */}
-        <Header />
+    return (
+        <>
+            {/* App header component */}
+            <Header />
 
+            {/* App content */}
+            <main className="app-content">
+                <Outlet />
+            </main>
 
-        {/* App content */}
-        <Outlet />
-
-        {/* App footer component */}
-        <Footer />
-    </>);
+            {/* App footer component */}
+            <Footer />
+        </>
+    );
 }

@@ -19,6 +19,8 @@ public record TaskUpdateDto(
     @Future(message = "Крайний срок должен быть в будущем")
     Instant deadline,
 
+    Long columnId,
+
     Long authorId,
 
     Long assigneeId

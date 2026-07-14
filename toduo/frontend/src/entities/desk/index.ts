@@ -1,3 +1,4 @@
-export * from './model/types'
+export * from './types'
+export * from './api'
 
-export { Desk } from './ui/Desk'
+export { DeskCard } from './ui/DeskCard'

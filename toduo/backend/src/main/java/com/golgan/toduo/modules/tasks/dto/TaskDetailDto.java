@@ -10,11 +10,13 @@ public record TaskDetailDto(
     Long id,
 
     DeskColumnSummaryDto column,
+    Long deskId,
 
     String name,
     TaskStatus status,
 
     String description,
+    String deadline,
 
     UserSummaryDto assignee,
     UserSummaryDto author,

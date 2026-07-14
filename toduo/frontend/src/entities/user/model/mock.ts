@@ -1,4 +1,4 @@
-import type { User, UserList, UserSummary } from "./types";
+import type { User, UserList, UserSummary } from "../types";
 
 export const mockUsers: User[] = [
     {

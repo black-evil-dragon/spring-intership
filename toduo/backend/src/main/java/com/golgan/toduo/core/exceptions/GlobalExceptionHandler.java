@@ -2,6 +2,7 @@ package com.golgan.toduo.core.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -30,6 +31,26 @@ public class GlobalExceptionHandler {
         body.put("timestamp", Instant.now());
 
         return new ResponseEntity<>(body, errorType.getStatus());
+    }
+
+    /// Перехватывает ошибки при проверке dto
+    ///
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Object> handleValidationException(MethodArgumentNotValidException ex) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", Instant.now());
+        body.put("status", HttpStatus.BAD_REQUEST.value());
+        body.put("code", "VALIDATION_ERROR");
+        body.put("message", "Ошибка валидации входных данных");
+
+        // Собираем ошибки по каждому полю из DTO
+        Map<String, String> errors = new LinkedHashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(error ->
+            errors.put(error.getField(), error.getDefaultMessage())
+        );
+        body.put("errors", errors);
+
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
 

@@ -9,9 +9,9 @@ const DEBUG = process.env.NODE_ENV == 'development';
 export default defineConfig({
   server: {
     host: '0.0.0.0',
-    port: 3000,
+    port: 5173,
     hmr: {
-      clientPort: 3000
+      clientPort: 5173
     },
     watch: {
       usePolling: !!DEBUG,
@@ -19,7 +19,7 @@ export default defineConfig({
     }
   },
 
-  plugins: [react()],
+
 
 
   resolve: {
@@ -34,5 +34,16 @@ export default defineConfig({
       "@styles": path.resolve(__dirname, "./src/app/styles"),
     },
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.scss', '.css']
+  },
+
+
+  plugins: [react()],
+
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler',
+      },
+    },
   },
 })

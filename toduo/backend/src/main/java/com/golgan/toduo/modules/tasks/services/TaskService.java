@@ -1,5 +1,7 @@
 package com.golgan.toduo.modules.tasks.services;
 
+import com.golgan.toduo.modules.desks.models.DeskColumnEntity;
+import com.golgan.toduo.modules.desks.repositories.DeskColumnRepository;
 import com.golgan.toduo.modules.desks.services.DeskColumnService;
 import com.golgan.toduo.modules.tasks.dto.TaskCreateDto;
 import com.golgan.toduo.modules.tasks.dto.TaskUpdateDto;
@@ -34,6 +36,7 @@ public class TaskService {
     private final UserService userService;
 
     private final DeskColumnService deskColumnService;
+    private final DeskColumnRepository columnRepository;
 
 
 
@@ -105,6 +108,11 @@ public class TaskService {
             addAssigneeByUserId(updateDto.assigneeId(), task);
         }
 
+        if (updateDto.columnId() != null) {
+            DeskColumnEntity columnProxy = columnRepository.getReferenceById(updateDto.columnId());
+            task.setColumn(columnProxy);
+        }
+
 
         return repository.save(task);
     }
@@ -140,7 +148,7 @@ public class TaskService {
     }
 
     public TaskEntity getTaskOrNotFound(Long id) {
-        TaskEntity entity = repository.findById(id).orElse(null);
+        TaskEntity entity = repository.findWithDeskById(id).orElse(null);
 
         return getTaskOrNotFound(entity);
     }
