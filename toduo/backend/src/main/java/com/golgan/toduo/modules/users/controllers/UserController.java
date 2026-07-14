@@ -8,6 +8,7 @@ import com.golgan.toduo.modules.users.mappers.UserMapper;
 import com.golgan.toduo.modules.users.models.UserEntity;
 import com.golgan.toduo.modules.users.services.UserService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -18,15 +19,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api/v1/users")
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService service;
     private final UserMapper mapper;
-
-    public UserController(UserService userService, UserMapper mapper) {
-        this.service = userService;
-        this.mapper = mapper;
-    }
 
 
     // * ======================== READ ========================

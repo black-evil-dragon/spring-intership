@@ -17,19 +17,6 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-
-    // @Bean
-    // public WebMvcConfigurer corsConfigurer() {
-    //     return new WebMvcConfigurer() {
-    //         public void addCorsMappings(CorsRegistry registry) {
-    //             registry.addMapping("/**")
-    //                 .allowedOrigins("*")
-    //                 .allowedMethods("*")
-    //                 .allowedHeaders("*");
-    //         }
-    //     };
-    // }
     
 
     // TODO: настроить
