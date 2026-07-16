@@ -10,6 +10,8 @@ collections:
     path: "collections/tasks"
   - name: "users"
     path: "collections/desks"
+  - name: "auth"
+    path: "collections/auth"
 
 specs:
 

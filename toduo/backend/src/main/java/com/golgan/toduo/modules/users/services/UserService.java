@@ -2,6 +2,7 @@ package com.golgan.toduo.modules.users.services;
 
 import com.golgan.toduo.core.services.PasswordService;
 import com.golgan.toduo.modules.users.dto.UserCreateDto;
+import com.golgan.toduo.modules.users.dto.UserRole;
 import com.golgan.toduo.modules.users.dto.UserUpdateDto;
 import com.golgan.toduo.modules.users.exceptions.EmailAlreadyExistException;
 import com.golgan.toduo.modules.users.exceptions.UserNotFoundException;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -64,6 +66,8 @@ public class UserService {
         newUser.setPassword(
             passwordService.encode(createDto.password())
         );
+
+        newUser.setRoles(Set.of(UserRole.ROLE_USER));
 
         return repository.save(newUser);
     }

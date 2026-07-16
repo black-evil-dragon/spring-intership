@@ -29,3 +29,7 @@ springdoc:
 
   api-docs:
     path: /api/v1/docs
+
+
+jwt:
+  secret: ${SECRET_STRING}

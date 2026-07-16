@@ -1,0 +1,17 @@
+info:
+  name: Refresh
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{base_url}}/api/v1/auth/refresh"
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwidHlwZSI6ImFjY2VzcyIsImlwIjoiMTcyLjIzLjAuMSIsImlhdCI6MTc4NDEzNTg0OCwiZXhwIjoxNzg0MTM2NzQ4fQ.W8VMZp6OdYsAFBu4wRaqhQOQReai04O_WxZYcNSGRJI
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

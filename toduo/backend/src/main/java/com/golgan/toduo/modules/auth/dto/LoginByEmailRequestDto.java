@@ -1,6 +1,6 @@
 package com.golgan.toduo.modules.auth.dto;
 
-public record LoginByEmailRequest(
+public record LoginByEmailRequestDto(
     String email,
     String password
 ) {}

@@ -2,11 +2,18 @@ package com.golgan.toduo.modules.users.models;
 
 import com.golgan.toduo.core.entities.AuditableEntity;
 
+import com.golgan.toduo.modules.users.dto.UserRole;
 import jakarta.persistence.*;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -44,5 +51,13 @@ public class UserEntity extends AuditableEntity {
     @Setter
     @Column(name = "last_name", nullable = false)
     private String lastName;
+
+
+
+    // Auth data
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "users_roles", joinColumns = @JoinColumn(name = "id"))
+    @Enumerated(EnumType.STRING)
+    private Set<UserRole> roles = new HashSet<>();
 
 }

@@ -5,6 +5,8 @@ networks:
 volumes:
   frontend_node_modules:
   backend-maven-cache:
+  redis_data:
+
 
 services:
   # * _______________________ NGINX _______________________
@@ -58,6 +60,24 @@ services:
   # * _____________________ ###### _________________________
 
 
+  # * _______________________ REDIS _______________________
+  redis:
+    image: redis:7.2-alpine
+    container_name: toduo_redis
+    hostname: toduo_redis
+
+    networks:
+      - toduo-network
+
+    ports:
+      - "6379"
+
+    volumes:
+      - redis_data:/data
+
+    command: redis-server --appendonly yes
+  # * _____________________ ###### _________________________
+
 
 
   # * _______________________ BACK _______________________
@@ -80,6 +100,9 @@ services:
       SPRING_PROFILES_ACTIVE: dev
       SPRING_DEVTOOLS_RESTART_ENABLED: true
       MAVEN_CONFIG: /root/.m2
+
+      REDIS_HOST: toduo_redis
+      REDIS_PORT: 6379
 
     networks:
       - toduo-network
